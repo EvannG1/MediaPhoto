@@ -17,4 +17,3 @@ $router = new \mf\router\Router();
 // $router->addRoute('home', '/', '\tweeterapp\control\TweeterController', 'viewHome', \tweeterapp\auth\TweeterAuthentification::ACCESS_LEVEL_NONE);
 $router->setDefaultRoute('/');
 $router->run();
-//test
