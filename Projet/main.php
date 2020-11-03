@@ -7,6 +7,9 @@ require_once 'src/mf/utils/ClassLoader.php';
 $loader = new \mf\utils\ClassLoader('src');
 $loader->register();
 
+// Titre de la page
+\mediaphoto\view\MediaPhotoView::setAppTitle('MediaPhoto');
+
 $config = parse_ini_file('conf/config.ini');
 $db = new \Illuminate\Database\Capsule\Manager();
 $db->addConnection($config);
