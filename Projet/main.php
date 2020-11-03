@@ -14,6 +14,7 @@ $db->setAsGlobal();
 $db->bootEloquent();
 
 $router = new \mf\router\Router();
-// $router->addRoute('home', '/', '\tweeterapp\control\TweeterController', 'viewHome', \tweeterapp\auth\TweeterAuthentification::ACCESS_LEVEL_NONE);
+$router->addRoute('home', '/', '\mediaphoto\controller\MediaPhotoController', 'viewHome');
+$router->addRoute('galleryView', '/gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewGallery');
 $router->setDefaultRoute('/');
 $router->run();
