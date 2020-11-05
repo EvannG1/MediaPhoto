@@ -9,6 +9,7 @@ $loader->register();
 
 // Titre de la page
 \mediaphoto\view\MediaPhotoView::setAppTitle('MediaPhoto');
+\mediaphoto\view\MediaPhotoView::addStyleSheet('html/assets/css/style.css');
 
 $config = parse_ini_file('conf/config.ini');
 $db = new \Illuminate\Database\Capsule\Manager();
