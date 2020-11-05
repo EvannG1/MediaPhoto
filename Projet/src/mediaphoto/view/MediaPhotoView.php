@@ -9,24 +9,51 @@ class MediaPhotoView extends \mf\view\AbstractView {
     }
 
     private function renderHeader() {
-        return 'Superbe header';
+        $result = <<<HTML
+        <div>
+            Super Logo
+        </div>
+        <div>
+            <a href="#">Connexion</a>
+            <a href="#">Inscription</a>
+        </div>
+        HTML;
+        return $result;
     }
 
     private function renderFooter() {
-        return 'Superbe footer';
+        return '';
     }
 
     private function renderHome() {
+        $router = new \mf\router\Router();
         $galleries = $this->data;
-        $result = '';
+        $result = <<<HTML
+        <center>
+            <form action="" method="post">
+                <input type="text" name="searchBar" placeholder="RECHERCHER">
+                <div>
+                    <input type="radio" name="byTitle" id="byTitle">
+                    <label for="byTitle">Par titre</label>
+                    <input type="radio" name="byUsername" id="byUsername">
+                    <label for="byTitle">Par utilisateur</label>
+                    <input type="radio" name="byGroup" id="byGroup">
+                    <label for="byTitle">Par groupe</label>
+                </div>
+                <button type="submit" name="search">OK</button>
+            </form>
+            <h2>Dernières publications</h2>
+        </center>
+        HTML;
         foreach($galleries as $g) {
             $title = $g->titre;
             $desc = $g->description;
             $date = $g->date;
+            $link = $router->urlFor('galleryView', array('id' => $g->id));
 
             $result .= <<<HTML
                 <hr>
-                Titre de la galerie : ${title}
+                <a href="${link}">Titre de la galerie : ${title}</a>
                 <br>
                 Description : ${desc}
                 <br>
@@ -34,27 +61,48 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 <hr>
             HTML;
         }
+
+        $result .= <<<HTML
+        <a href="#">Voir plus</a>
+        HTML;
+
         return $result;
     }
 
     private function renderViewGallery() {
-        $photos = $this->data;
-        $result = '';
+        $gallery = $this->data;
+        $title = $gallery->titre;
+        $desc = $gallery->description;
+
+        $get_author = $gallery->author()->first();
+        $author = $get_author->nom;
+
+        $result = <<<HTML
+        <center>
+        <h1>Galerie : ${title}</h1>
+        <div>
+            <p>Description :</p>
+            <p>${desc}</p>
+        </div>
+        <hr>
+        <p>Créé par : ${author}</p>
+        <hr>
+        <h1>Dernière publications</h1>
+        </center>
+        HTML;
+
+        $photos = $gallery->photos()->get();
+        
         foreach($photos as $p) {
-            $title = $p->titre;
-            $date = $p->date;
-            $path = $p->chemin;
+            $titre = $p->titre;
+            $chemin = $p->chemin;
 
             $result .= <<<HTML
-                <hr>
-                Titre de la photo : ${title}
-                <br>
-                <img src="${path}" alt="${title}">
-                <br>
-                Date de publication : ${date}
-                <hr>
+            <p>${titre}</p>
+            <img src="${chemin}" alt="${titre}">
             HTML;
         }
+
         return $result;
     }
 

@@ -9,7 +9,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewHome() {
-        $galleries = \mediaphoto\model\Gallery::all();
+        $galleries = \mediaphoto\model\Gallery::select()->orderBy('id', 'desc')->get();
         $vue = new \mediaphoto\view\MediaPhotoView($galleries);
         $vue->render('renderHome');
     }
@@ -21,8 +21,8 @@ class MediaPhotoController extends \mf\control\AbstractController {
             exit;
         } else {
             $id = $this->request->get['id'];
-            $photos = \mediaphoto\model\Photo::select()->where('id_galerie', '=', $id)->get();
-            $vue = new \mediaphoto\view\MediaPhotoView($photos);
+            $gallery = \mediaphoto\model\Gallery::select()->where('id', '=', $id)->first();
+            $vue = new \mediaphoto\view\MediaPhotoView($gallery);
             $vue->render('renderViewGallery');
         }
     }

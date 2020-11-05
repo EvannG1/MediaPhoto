@@ -10,4 +10,8 @@ class Photo extends \Illuminate\Database\Eloquent\Model {
     public function photos() {
         return $this->belongsTo('\mediaphoto\model\User', 'author');
     }
+
+    public function galerie() {
+        return $this->belongsTo('\mediaphoto\model\Gallery', 'id_galerie');
+    }
 }
