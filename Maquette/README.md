@@ -1,1 +1,1 @@
-Répertoire de la maquette
+Répertoire des maquettes
