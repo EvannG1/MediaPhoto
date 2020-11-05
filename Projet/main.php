@@ -9,6 +9,7 @@ $loader->register();
 
 // Titre de la page
 \mediaphoto\view\MediaPhotoView::setAppTitle('MediaPhoto');
+// Importation de la feuille de style
 \mediaphoto\view\MediaPhotoView::addStyleSheet('html/assets/css/style.css');
 
 $config = parse_ini_file('conf/config.ini');
