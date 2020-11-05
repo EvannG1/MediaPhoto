@@ -73,10 +73,10 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $gallery = $this->data;
         $title = $gallery->titre;
         $desc = $gallery->description;
-
-        $get_author = $gallery->author()->first();
-        $author = $get_author->nom;
-
+        $type = $gallery->type;
+        $taille = $gallery->taille;
+        $author = $gallery->author()->first()->nom;
+        
         $result = <<<HTML
         <center>
         <h1>Galerie : ${title}</h1>
@@ -86,13 +86,30 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         <hr>
         <p>Créé par : ${author}</p>
+        <p>Taille totale de la galerie : ${taille}</p>
+        HTML;
+        
+        if($type == 3) {
+            $get_share = $gallery->partage()->get();
+            $share = [];
+            foreach($get_share as $s) {
+                $share[] = $gallery->getShareUsername($s->id)->nom;
+            }
+            $share = implode(', ', $share);
+
+            $result .= <<<HTML
+            <p>Partagé avec : ${share}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
         <hr>
         <h1>Dernière publications</h1>
         </center>
         HTML;
 
         $photos = $gallery->photos()->get();
-        
+
         foreach($photos as $p) {
             $titre = $p->titre;
             $chemin = $p->chemin;

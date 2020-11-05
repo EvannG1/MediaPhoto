@@ -18,4 +18,8 @@ class Gallery extends \Illuminate\Database\Eloquent\Model {
     public function partage() {
         return $this->hasMany('\mediaphoto\model\Share', 'id_galerie');
     }
+
+    public function getShareUsername($id) {
+        return User::select('nom')->where('id', '=', $id)->first();
+    }
 }
