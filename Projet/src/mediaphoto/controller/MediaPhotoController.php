@@ -26,4 +26,17 @@ class MediaPhotoController extends \mf\control\AbstractController {
             $vue->render('renderViewGallery');
         }
     }
+
+    public function viewPhoto() {
+        if(!isset($this->request->get['id'])) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+            $id = $this->request->get['id'];
+            $photo = \mediaphoto\model\Photo::select()->where('id', '=', $id)->first();
+            $vue = new \mediaphoto\view\MediaPhotoView($photo);
+            $vue->render('renderViewPhoto');
+        }
+    }
 }

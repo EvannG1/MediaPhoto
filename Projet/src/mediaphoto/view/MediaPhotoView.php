@@ -49,7 +49,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $title = $g->titre;
             $desc = $g->description;
             $date = $g->date;
-            $link = $router->urlFor('galleryView', array('id' => $g->id));
+            $link = $router->urlFor('viewGallery', array('id' => $g->id));
 
             $result .= <<<HTML
                 <hr>
@@ -70,11 +70,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
     }
 
     private function renderViewGallery() {
+        $router = new \mf\router\Router();
+
         $gallery = $this->data;
         $title = $gallery->titre;
         $desc = $gallery->description;
         $type = $gallery->type;
-        $taille = $gallery->taille;
+        $size = $gallery->taille;
         $author = $gallery->author()->first()->nom;
         
         $result = <<<HTML
@@ -86,7 +88,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         <hr>
         <p>Créé par : ${author}</p>
-        <p>Taille totale de la galerie : ${taille}</p>
+        <p>Taille totale de la galerie : ${size}</p>
         HTML;
         
         if($type == 3) {
@@ -111,14 +113,64 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $photos = $gallery->photos()->get();
 
         foreach($photos as $p) {
-            $titre = $p->titre;
-            $chemin = $p->chemin;
+            $title = $p->titre;
+            $path = $p->chemin;
+            $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
-            <p>${titre}</p>
-            <img src="${chemin}" alt="${titre}">
+            <p>${title}</p>
+            <a href="${link}"><img src="${path}" alt="${title}"></a>
             HTML;
         }
+
+        return $result;
+    }
+
+    private function renderViewPhoto() {
+        $router = new \mf\router\Router();
+        $photo = $this->data;
+
+        $id = $photo->id;
+        $title = $photo->titre;
+        $path = $photo->chemin;
+        $size = $photo->taille;
+        $quality = $photo->qualite;
+        $type = $photo->type;
+
+        $author = $photo->author()->first()->nom;
+        $gallery = $photo->gallery()->first()->titre;
+        $gallery_id = $photo->id_galerie;
+        $get_photos = $photo->getGalleryPhoto($gallery_id, $id, 4);
+
+        $result = <<<HTML
+        <center>
+            <h1>${title}</h1>
+            <img src="${path}" alt="${title}">
+            <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
+        HTML;
+        
+        foreach($get_photos as $p) {
+            $img_title = $p->titre;
+            $img_path = $p->chemin;
+            $img_link = $router->urlFor('viewPhoto', array('id' => $p->id));
+
+            $result .= <<<HTML
+            <p>${img_title}</p>
+            <a href="${img_link}"><img src="${img_path}" alt="${img_title}" width="10%"></a>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <hr>
+        <div>
+            <p>Publiée par : ${author}</p>
+            <p>Appartenant à la galerie : ${gallery}</p>
+            <p>Taille de l'image : ${size}</p>
+            <p>Qualité : ${quality}</p>
+            <p>Type : ${type}</p>
+        </div>
+        </center>
+        HTML;
 
         return $result;
     }

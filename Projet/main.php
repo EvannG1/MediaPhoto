@@ -20,6 +20,7 @@ $db->bootEloquent();
 
 $router = new \mf\router\Router();
 $router->addRoute('home', '/', '\mediaphoto\controller\MediaPhotoController', 'viewHome');
-$router->addRoute('galleryView', '/gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewGallery');
+$router->addRoute('viewGallery', '/gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewGallery');
+$router->addRoute('viewPhoto', '/photo/', '\mediaphoto\controller\MediaPhotoController', 'viewPhoto');
 $router->setDefaultRoute('/');
 $router->run();
