@@ -8,8 +8,8 @@ class Router extends AbstractRouter {
         parent::__construct();
     }
     
-    public function addRoute($name, $url, $ctrl, $mth) {
-        self::$routes[$url] = array($ctrl, $mth);
+    public function addRoute($name, $url, $ctrl, $mth, $access_level) {
+        self::$routes[$url] = array($ctrl, $mth, $access_level);
         self::$aliases[$name] = $url;
     }
 
@@ -35,23 +35,23 @@ class Router extends AbstractRouter {
         if(array_key_exists($this->http_req->path_info, self::$routes)) {
             $controller = self::$routes[$this->http_req->path_info][0];
             $method = self::$routes[$this->http_req->path_info][1];
-            // $level = self::$routes[$this->http_req->path_info][2];
-            $c = new $controller();
-            $c->$method();
+            $level = self::$routes[$this->http_req->path_info][2];
 
-            // $access = new \mf\auth\Authentification();
-            // if($access->checkAccessRight($level)) {
-            //     $c = new $controller();
-            //     $c->$method();
-            // } else {
-            //     $default = self::$aliases['default'];
+            $access = new \mf\auth\Authentification();
 
-            //     $controller = self::$routes[$default][0];
-            //     $method = self::$routes[$default][1];
+            if($access->checkAccessRight($level)) {
+                $c = new $controller();
+                $c->$method();
+            } else {
+                $default = self::$aliases['default'];
 
-            //     $c = new $controller();
-            //     $c->$method();
-            // }
+                $controller = self::$routes[$default][0];
+                $method = self::$routes[$default][1];
+
+                $c = new $controller();
+                $c->$method();
+            }
+
         } else {
             $default = self::$aliases['default'];
 

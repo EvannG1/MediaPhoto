@@ -27,8 +27,7 @@ class Authentification extends AbstractAuthentification {
     }
 
      public function logout(){
-       unset($_SESSION['user_login']);
-       unset($_SESSION['access_level']);
+       session_destroy();
        $this->user_login = null;
        $this->access_level = self::ACCESS_LEVEL_NONE;
        $this->logged_in = false;
@@ -43,7 +42,7 @@ class Authentification extends AbstractAuthentification {
 
       public function login($username, $db_pass, $given_pass, $level){
         if(!$this->verifyPassword($given_pass, $db_pass)){
-          throw new \mf\auth\exception\AuthentificationException('Le mot de passe ne correspond pas.');
+          throw new \mf\auth\exception\AuthentificationException('Mot de passe incorrect.');
         }else {
           $this->updateSession($username, $level);
         }

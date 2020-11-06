@@ -9,15 +9,37 @@ class MediaPhotoView extends \mf\view\AbstractView {
     }
 
     private function renderHeader() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $router = new \mf\router\Router();
+        $login = $router->urlFor('viewLogin');
+        $signup = $router->urlFor('viewSignup');
+        $logout = $router->urlFor('viewLogout');
+
         $result = <<<HTML
         <div>
             Super Logo
         </div>
-        <div>
-            <a href="#">Connexion</a>
-            <a href="#">Inscription</a>
-        </div>
         HTML;
+
+        if(!$auth->logged_in) {
+            $result .= <<<HTML
+            <div>
+                <a href="${login}">Connexion</a>
+                <a href="${signup}">Inscription</a>
+            </div>
+            HTML;
+        } else {
+            $name = $_SESSION['user_login'];
+            $result .= <<<HTML
+            <div>
+                <a href="#">Poster une photo</a>
+                <a href="#">Mes photos</a>
+                <a href="#">${name}</a>
+                <a href="${logout}">Déconnexion</a>
+            </div>
+            HTML;
+        }
+
         return $result;
     }
 
@@ -175,6 +197,37 @@ class MediaPhotoView extends \mf\view\AbstractView {
         return $result;
     }
 
+    protected function renderViewLogin() {
+        $router = new \mf\router\Router();
+        $checkLogin = $router->urlFor('checkLogin');
+        $result = '';
+
+        if(isset($_SESSION['login_error'])) {
+            $message = $_SESSION['login_error'][0];
+            $color = $_SESSION['login_error'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <br>
+        <form action="${checkLogin}" method="POST">
+            <div>
+                <label for="name">Nom d'utilisateur :</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <button type="submit">Se connecter</button>
+        </form>
+        HTML;
+        return $result;
+    }
+
     protected function renderBody($selector)
     {
         $header = $this->renderHeader();
@@ -186,6 +239,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         <section>${selecteur}</section>
         <footer>${footer}</footer>
         HTML;
+
         return $html;
     }
 }

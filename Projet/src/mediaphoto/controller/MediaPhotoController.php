@@ -15,6 +15,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewGallery() {
+        global $i;
         if(!isset($this->request->get['id'])) {
             $router = new \mf\router\Router();
             header('Location:' . $router->urlFor('home'));
