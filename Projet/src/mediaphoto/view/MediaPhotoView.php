@@ -99,7 +99,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $desc = $gallery->description;
         $type = $gallery->type;
         $size = $gallery->taille;
-        $author = $gallery->author()->first()->nom;
+        $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
         <center>
@@ -117,7 +117,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $get_share = $gallery->partage()->get();
             $share = [];
             foreach($get_share as $s) {
-                $share[] = $gallery->getShareUsername($s->id)->nom;
+                $share[] = $gallery->getShareUsername($s->id)->nom_complet;
             }
             $share = implode(', ', $share);
 
@@ -159,7 +159,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $quality = $photo->qualite;
         $type = $photo->type;
 
-        $author = $photo->author()->first()->nom;
+        $author = $photo->author()->first()->nom_complet;
         $gallery = $photo->gallery()->first()->titre;
         $gallery_id = $photo->id_galerie;
         $get_photos = $photo->getGalleryPhoto($gallery_id, $id, 4);
@@ -197,7 +197,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         return $result;
     }
 
-    protected function renderViewLogin() {
+    private function renderViewLogin() {
         $router = new \mf\router\Router();
         $checkLogin = $router->urlFor('checkLogin');
         $result = '';
@@ -226,6 +226,12 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </form>
         HTML;
         return $result;
+    }
+
+    private function renderViewSignup() {
+        $html = <<<HTML
+
+        HTML;
     }
 
     protected function renderBody($selector)
