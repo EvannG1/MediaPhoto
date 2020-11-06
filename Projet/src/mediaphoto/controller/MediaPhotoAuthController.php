@@ -31,9 +31,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                 $name = $this->request->post['name'];
                 $password = $this->request->post['password'];
                 if(empty($name) || empty($password)) {
-                    $_SESSION['login_error'] = array('Veuillez renseigner tous les champs.', 'red');
-                    \mf\router\router::executeRoute('viewLogin');
-                    unset($_SESSION['login_error']);
+                    $auth->generateError('login_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewLogin');
                 } else {
                     try {
                         $name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -48,9 +46,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                         header('Location:' . $router->urlFor('home'));
                         exit;
                     } catch (\mf\auth\exception\AuthentificationException $e) {
-                        $_SESSION['login_error'] = array($e->getMessage(), 'red');
-                        \mf\router\router::executeRoute('viewLogin');
-                        unset($_SESSION['login_error']);
+                        $auth->generateError('login_error', array($e->getMessage(), 'red'), 'viewLogin');
                     }
                 }
             } else {
@@ -86,9 +82,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                 $password = $this->request->post['password'];
                 $password_confirmation = $this->request->post['password_confirmation'];
                 if(empty($username) || empty($name) || empty($password) || empty($password_confirmation)) {
-                    $_SESSION['signup_error'] = array('Veuillez renseigner tous les champs.', 'red');
-                    \mf\router\router::executeRoute('viewSignup');
-                    unset($_SESSION['signup_error']);
+                    $auth->generateError('signup_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewSignup');
                 } else {
                     try {
                         $username = filter_var($username, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -96,14 +90,20 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                         $password = filter_var($password, FILTER_SANITIZE_SPECIAL_CHARS);
                         $password_confirmation = filter_var($password_confirmation, FILTER_SANITIZE_SPECIAL_CHARS);
 
-                        $auth->createUser($username, $name, $password);
-                        $router = new \mf\router\Router();
-                        header('Location:' . $router->urlFor('home'));
-                        exit;
+                        if($auth->passwordConfirmation($password, $password_confirmation)) {
+                            $auth->createUser($username, $name, $password);
+
+                            // Suppression du message d'erreur stocké en mémoire
+                            unset($_SESSION['signup_error']);
+                            
+                            $router = new \mf\router\Router();
+                            header('Location:' . $router->urlFor('home'));
+                            exit;
+                        } else {
+                            $auth->generateError('signup_error', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewSignup');
+                        }
                     } catch(\mf\auth\exception\AuthentificationException $e) {
-                        $_SESSION['signup_error'] = array($e->getMessage(), 'red');
-                        \mf\router\router::executeRoute('viewSignup');
-                        unset($_SESSION['signup_error']);
+                        $auth->generateError('signup_error', array($e->getMessage(), 'red'), 'viewSignup');
                     }
                 }
             } else {

@@ -28,6 +28,15 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
         }
     }
 
+    public function passwordConfirmation($password, $password_confirmation) {
+        if ($password == $password_confirmation)
+        {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function loginUser($name, $password) {
         $user = User::select()->where('nom', '=', $name)->first();
         if(!$user) {
@@ -35,5 +44,16 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
         } else {
             $this->login($user->nom, $user->mdp, $password, $user->level);
         }
+    }
+
+        
+    // $_SESSION['signup_error'] = array($e->getMessage(), 'red');
+    // \mf\router\router::executeRoute('viewSignup');
+    // unset($_SESSION['signup_error']);
+
+    public function generateError($error_name, $args, $route) {
+        $_SESSION[$error_name] = $args;
+        \mf\router\Router::executeRoute($route);
+        unset($_SESSION[$error_name]);
     }
 }
