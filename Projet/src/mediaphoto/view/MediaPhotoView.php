@@ -107,8 +107,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         <center>
         <h1>Galerie : ${title}</h1>
         <div>
-            <p>Description :</p>
-            <p>${desc}</p>
+            <p>Description : ${desc}</p>
         </div>
         <hr>
         <p>Créé par : ${author}</p>
