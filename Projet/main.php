@@ -30,6 +30,9 @@ $router->addRoute('home', '/', '\mediaphoto\controller\MediaPhotoController', 'v
 $router->addRoute('viewGallery', '/gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewGallery', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
 $router->addRoute('viewPhoto', '/photo/', '\mediaphoto\controller\MediaPhotoController', 'viewPhoto', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
 
+$router->addRoute('viewPassword', '/password/', '\mediaphoto\controller\MediaPhotoAuthController', 'changePassword', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
+$router->addRoute('checkPassword', '/check_password/', '\mediaphoto\controller\MediaPhotoAuthController', 'checkChangePassword', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
+
 // Routes de connexion
 $router->addRoute('viewLogin', '/login/', '\mediaphoto\controller\MediaPhotoAuthController', 'login', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
 $router->addRoute('checkLogin', '/check_login/', '\mediaphoto\controller\MediaPhotoAuthController', 'checkLogin', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);

@@ -14,6 +14,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $login = $router->urlFor('viewLogin');
         $signup = $router->urlFor('viewSignup');
         $logout = $router->urlFor('viewLogout');
+        $password = $router->urlFor('viewPassword');
 
         $result = <<<HTML
         <div>
@@ -34,7 +35,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             <div>
                 <a href="#">Poster une photo</a>
                 <a href="#">Mes photos</a>
-                <a href="#">${name}</a>
+                <a href="${password}">${name}</a>
                 <a href="${logout}">Déconnexion</a>
             </div>
             HTML;
@@ -268,6 +269,44 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </form>
         HTML;
 
+        return $result;
+    }
+
+    private function renderViewPassword() {
+        $router = new \mf\router\Router();
+        $checkPassword = $router->urlFor('checkPassword');
+        $result = '';
+
+        if(isset($_SESSION['password_info'])) {
+            $message = $_SESSION['password_info'][0];
+            $color = $_SESSION['password_info'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <h1>Modification de votre mot de passe</h1>
+        <div>
+            <form action="${checkPassword}" method="POST">
+                <div>
+                    <label for="currentPassword">Mot de passe actuel :</label>
+                    <input type="password" name="currentPassword" id="currentPassword">
+                </div>
+                <div>
+                    <label for="newPassword">Nouveau mot de passe :</label>
+                    <input type="password" name="newPassword" id="newPassword">
+                </div>
+                <div>
+                    <label for="newPasswordConfirmation">Confirmer le nouveau mot de passe :</label>
+                    <input type="password" name="newPasswordConfirmation" id="newPasswordConfirmation">
+                </div>
+                <button name="submit" type="submit">Changer de mot de passe</button>
+            </form>
+        </div>
+        HTML;
+        
         return $result;
     }
 

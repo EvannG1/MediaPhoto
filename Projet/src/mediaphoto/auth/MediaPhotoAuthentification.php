@@ -29,7 +29,7 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
     }
 
     public function passwordConfirmation($password, $password_confirmation) {
-        if ($password == $password_confirmation)
+        if($password == $password_confirmation)
         {
             return true;
         } else {
@@ -46,9 +46,19 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
         }
     }
 
-    public function generateError($error_name, $args, $route) {
-        $_SESSION[$error_name] = $args;
+    public function generateMessage($message_name, $args, $route) {
+        $_SESSION[$message_name] = $args;
         \mf\router\Router::executeRoute($route);
-        unset($_SESSION[$error_name]);
+        unset($_SESSION[$message_name]);
+    }
+
+    public function verifyCurrentPassword($name, $password) {
+        $db_pass = User::select()->where('nom', '=', 'admin')->first();
+        return $this->verifyPassword($password, $db_pass->mdp);
+    }
+
+    public function changePassword($name, $password) {
+        $hashedPass = $this->hashPassword($password);
+        User::where('nom', '=', $name)->update(['mdp' => $hashedPass]);
     }
 }

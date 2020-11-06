@@ -31,7 +31,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                 $name = $this->request->post['name'];
                 $password = $this->request->post['password'];
                 if(empty($name) || empty($password)) {
-                    $auth->generateError('login_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewLogin');
+                    $auth->generateMessage('login_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewLogin');
                 } else {
                     try {
                         $name = filter_var($name, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -46,7 +46,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                         header('Location:' . $router->urlFor('home'));
                         exit;
                     } catch (\mf\auth\exception\AuthentificationException $e) {
-                        $auth->generateError('login_error', array($e->getMessage(), 'red'), 'viewLogin');
+                        $auth->generateMessage('login_error', array($e->getMessage(), 'red'), 'viewLogin');
                     }
                 }
             } else {
@@ -82,7 +82,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                 $password = $this->request->post['password'];
                 $password_confirmation = $this->request->post['password_confirmation'];
                 if(empty($username) || empty($name) || empty($password) || empty($password_confirmation)) {
-                    $auth->generateError('signup_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewSignup');
+                    $auth->generateMessage('signup_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewSignup');
                 } else {
                     try {
                         $username = filter_var($username, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -100,10 +100,10 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                             header('Location:' . $router->urlFor('home'));
                             exit;
                         } else {
-                            $auth->generateError('signup_error', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewSignup');
+                            $auth->generateMessage('signup_error', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewSignup');
                         }
                     } catch(\mf\auth\exception\AuthentificationException $e) {
-                        $auth->generateError('signup_error', array($e->getMessage(), 'red'), 'viewSignup');
+                        $auth->generateMessage('signup_error', array($e->getMessage(), 'red'), 'viewSignup');
                     }
                 }
             } else {
@@ -120,5 +120,52 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
         $router = new \mf\router\Router();
         header('Location:' . $router->urlFor('home'));
         exit;
+    }
+
+    public function changePassword() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('viewLogin'));
+            exit;
+        } else {
+            $view = new \mediaphoto\view\MediaPhotoView([]);
+            return $view->render('renderViewPassword');
+        }
+    }
+
+    public function checkChangePassword() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('viewLogin'));
+            exit;
+        } else {
+            if(isset($this->request->post['submit'])) {
+                $currentPassword = filter_var($this->request->post['currentPassword']);
+                $newPassword = filter_var($this->request->post['newPassword']);
+                $newPasswordConfirmation = filter_var($this->request->post['newPasswordConfirmation']);
+
+                if(empty($currentPassword) || empty($newPassword) || empty($newPasswordConfirmation)) {
+                    $auth->generateMessage('password_info', array('Veuillez renseigner tous les champs.', 'red'), 'viewPassword');
+                } else {
+                    if($auth->verifyCurrentPassword($_SESSION['user_login'], $currentPassword)) {
+                        if($auth->passwordConfirmation($newPassword, $newPasswordConfirmation)) {
+                            $auth->changePassword($_SESSION['user_login'], $newPassword);
+
+                            $auth->generateMessage('password_info', array('Votre mot de passe a bien été modifié.', 'green'), 'viewPassword');
+                        } else {
+                            $auth->generateMessage('password_info', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewPassword');
+                        }
+                    } else {
+                        $auth->generateMessage('password_info', array('Le mot de passe actuel est incorrect.', 'red'), 'viewPassword');
+                    }
+                }
+            } else {
+                $router = new \mf\router\Router();
+                header('Location:' . $router->urlFor('viewPassword'));
+                exit;
+            }
+        }
     }
 }
