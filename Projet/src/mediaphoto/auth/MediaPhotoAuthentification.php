@@ -46,11 +46,6 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
         }
     }
 
-        
-    // $_SESSION['signup_error'] = array($e->getMessage(), 'red');
-    // \mf\router\router::executeRoute('viewSignup');
-    // unset($_SESSION['signup_error']);
-
     public function generateError($error_name, $args, $route) {
         $_SESSION[$error_name] = $args;
         \mf\router\Router::executeRoute($route);
