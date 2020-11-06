@@ -20,6 +20,6 @@ class Gallery extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function getShareUsername($id) {
-        return User::select('nom')->where('id', '=', $id)->first();
+        return User::select('nom', 'nom_complet')->where('id', '=', $id)->first();
     }
 }
