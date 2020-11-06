@@ -222,16 +222,53 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 <label for="password">Mot de passe :</label>
                 <input type="password" name="password" id="password">
             </div>
-            <button type="submit">Se connecter</button>
+            <button name="submit" type="submit">Se connecter</button>
         </form>
         HTML;
         return $result;
     }
 
     private function renderViewSignup() {
-        $html = <<<HTML
+        $router = new \mf\router\Router();
+        $checkSignup = $router->urlFor('checkSignup');
+        $site_name = self::$app_title;
+        $result = '';
 
+        if(isset($_SESSION['signup_error'])) {
+            $message = $_SESSION['signup_error'][0];
+            $color = $_SESSION['signup_error'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <br>
+        <h1>Inscription à ${site_name}</h1>
+        <form action="${checkSignup}" method="POST">
+            <div>
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" name="username" id="username">
+                <small id="username">Utiliser pour la connexion</small>
+            </div>
+            <div>
+                <label for="name">Nom complet :</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div>
+                <label for="password_confirmation">Confirmer le mot de passe :</label>
+                <input type="password" name="password_confirmation" id="password_confirmation">
+            </div>
+            <button name="submit" type="submit">S'inscrire</button>
+        </form>
         HTML;
+
+        return $result;
     }
 
     protected function renderBody($selector)

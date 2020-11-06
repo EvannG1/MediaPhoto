@@ -13,14 +13,16 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
         parent::__construct();
     }
 
-    public function createUser($name, $pass, $level = self::ACCESS_LEVEL_USER) {
-        if(User::where('nom', '=', $name)->first()) {
+    public function createUser($username, $name, $pass, $level = self::ACCESS_LEVEL_USER) {
+        if(User::where('nom', '=', $username)->first()) {
             throw new \mf\auth\exception\AuthentificationException("Ce nom d'utilisateur n'est pas disponible.");
         } else {
             $hashedPass = $this->hashPassword($pass);
             $user = new User();
-            $user->name = $name;
+            $user->nom = $username;
+            $user->nom_complet = $name;
             $user->mdp = $hashedPass;
+            $user->level = $level;
             $user->save();
             $this->updateSession($name, $level);
         }
