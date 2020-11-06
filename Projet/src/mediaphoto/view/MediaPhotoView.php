@@ -11,6 +11,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
     private function renderHeader() {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
+        $home = $router->urlFor('home');
         $login = $router->urlFor('viewLogin');
         $signup = $router->urlFor('viewSignup');
         $logout = $router->urlFor('viewLogout');
@@ -18,7 +19,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         $result = <<<HTML
         <div>
-            Super Logo
+            <a href="${home}">Super Logo</a>
         </div>
         HTML;
 
