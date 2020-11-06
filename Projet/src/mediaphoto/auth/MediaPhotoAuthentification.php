@@ -24,7 +24,7 @@ class MediaPhotoAuthentification extends \mf\auth\Authentification {
             $user->mdp = $hashedPass;
             $user->level = $level;
             $user->save();
-            $this->updateSession($name, $level);
+            $this->updateSession($username, $level);
         }
     }
 
