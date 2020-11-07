@@ -102,8 +102,8 @@ class MediaPhotoView extends \mf\view\AbstractView {
           <!-- Fin bloc de recherche -->
         HTML;
                 if($auth->logged_in) {
-                    $userId = \mediaphoto\model\User::select('id')->where('nom', '=', $_SESSION['user_login'])->first()->id;
-                    $userGalleries = \mediaphoto\model\Gallery::where('auteur', '=', $userId)->orderByDesc('id')->get();
+                    $userId = \mediaphoto\model\User::getLoggedUserId();
+                    $userGalleries = \mediaphoto\model\Gallery::getUserGalleries($userId);
 
                     $result .= <<<HTML
                     <!-- Début liste de vos galeries -->
