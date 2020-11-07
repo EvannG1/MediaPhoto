@@ -1,0 +1,65 @@
+header nav{
+  height: 70px;
+  background-color: #F6F6F6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0 50px;
+  font-family: $nav-font-family;
+
+  a{
+    text-decoration: none;
+    color: black;
+  }
+
+  .nav-link{
+    width: 40%;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+
+    & > a{
+      margin-right: 20px;
+      text-transform: uppercase;
+      transition: opacity 0.5s;
+      &:hover{
+        opacity: 0.6;
+      }
+    }
+  }
+  .logo{
+    height: 40px;
+  }
+  .nav-setting{
+    width: 40%;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+
+    a{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
+      margin-right: 20px;
+
+      & > p{
+        transition: opacity 0.5s;
+      }
+
+      & > img{
+        margin-right: 10px;
+        transition: transform 0.5s;
+      }
+
+      &:hover > p{
+        opacity: 0.6;
+      }
+
+      &:hover > img{
+        transform: scale(0.9);
+      }
+    }
+  }
+}
