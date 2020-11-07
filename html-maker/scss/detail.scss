@@ -1,0 +1,69 @@
+@import "https://necolas.github.io/normalize.css/8.0.1/normalize.css";
+@import "_vars.scss";
+
+@import "_nav.scss";
+@import "_utils.scss";
+@import "_lightbox.scss";
+
+body{
+  font-family: $body-font-family;
+}
+
+p{
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+}
+
+h1{
+  font-size: 21px;
+}
+h2,h3{
+  font-size: 20px;
+}
+
+article{
+  width: $article-width;
+  display: block;
+  margin: $vertical-margin auto 0 auto;
+}
+
+.picture-block{
+  .showing{
+    position: relative;
+    width:80%;
+    margin: 0 auto;
+    .pic{
+      width: 100%;
+      margin-bottom: ($vertical-margin / 2);
+      cursor: pointer;
+    }
+    .left-arrow, .right-arrow{
+      width:80px;height: 80px;
+    }
+    .left-arrow{
+      position: absolute;
+      top: calc(50% - 40px);
+      left: -40px;
+    }
+    .right-arrow{
+      position: absolute;
+      top: calc(50% - 40px);
+      right: -40px;
+      transform: rotate(180deg);
+    }
+  }
+
+  .in-gallerie{
+    .block-vignette{
+      border: 1px dashed rgba(black, 0.1);
+    }
+  }
+}
+
+.more-info-block{
+  p a{
+    color: black;
+
+  }
+}
