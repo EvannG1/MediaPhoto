@@ -2,6 +2,8 @@
 
 namespace mediaphoto\controller;
 
+use mediaphoto\view\MediaPhotoView;
+
 class MediaPhotoAuthController extends \mf\control\AbstractController {
     public function __construct()
     {
@@ -9,6 +11,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function login() {
+        MediaPhotoView::addStyleSheet('html/assets/css/connexion.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -21,6 +24,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkLogin() {
+        MediaPhotoView::addStyleSheet('html/assets/css/connexion.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -58,6 +62,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function signup() {
+        MediaPhotoView::addStyleSheet('html/assets/css/inscription.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -70,6 +75,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkSignup() {
+        MediaPhotoView::addStyleSheet('html/assets/css/inscription.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -123,6 +129,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function changePassword() {
+        MediaPhotoView::addStyleSheet('html/assets/css/password.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -135,6 +142,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkChangePassword() {
+        MediaPhotoView::addStyleSheet('html/assets/css/password.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
