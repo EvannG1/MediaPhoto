@@ -9,15 +9,39 @@ class MediaPhotoView extends \mf\view\AbstractView {
     }
 
     private function renderHeader() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $router = new \mf\router\Router();
+        $home = $router->urlFor('home');
+        $login = $router->urlFor('viewLogin');
+        $signup = $router->urlFor('viewSignup');
+        $logout = $router->urlFor('viewLogout');
+        $password = $router->urlFor('viewPassword');
+
         $result = <<<HTML
         <div>
-            Super Logo
-        </div>
-        <div>
-            <a href="#">Connexion</a>
-            <a href="#">Inscription</a>
+            <a href="${home}">Super Logo</a>
         </div>
         HTML;
+
+        if(!$auth->logged_in) {
+            $result .= <<<HTML
+            <div>
+                <a href="${login}">Connexion</a>
+                <a href="${signup}">Inscription</a>
+            </div>
+            HTML;
+        } else {
+            $name = $_SESSION['user_login'];
+            $result .= <<<HTML
+            <div>
+                <a href="#">Poster une photo</a>
+                <a href="#">Mes photos</a>
+                <a href="${password}">${name}</a>
+                <a href="${logout}">Déconnexion</a>
+            </div>
+            HTML;
+        }
+
         return $result;
     }
 
@@ -77,14 +101,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $desc = $gallery->description;
         $type = $gallery->type;
         $size = $gallery->taille;
-        $author = $gallery->author()->first()->nom;
+        $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
         <center>
         <h1>Galerie : ${title}</h1>
         <div>
-            <p>Description :</p>
-            <p>${desc}</p>
+            <p>Description : ${desc}</p>
         </div>
         <hr>
         <p>Créé par : ${author}</p>
@@ -95,7 +118,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $get_share = $gallery->partage()->get();
             $share = [];
             foreach($get_share as $s) {
-                $share[] = $gallery->getShareUsername($s->id)->nom;
+                $share[] = $gallery->getShareUsername($s->id)->nom_complet;
             }
             $share = implode(', ', $share);
 
@@ -137,7 +160,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $quality = $photo->qualite;
         $type = $photo->type;
 
-        $author = $photo->author()->first()->nom;
+        $author = $photo->author()->first()->nom_complet;
         $gallery = $photo->gallery()->first()->titre;
         $gallery_id = $photo->id_galerie;
         $get_photos = $photo->getGalleryPhoto($gallery_id, $id, 4);
@@ -175,6 +198,118 @@ class MediaPhotoView extends \mf\view\AbstractView {
         return $result;
     }
 
+    private function renderViewLogin() {
+        $router = new \mf\router\Router();
+        $checkLogin = $router->urlFor('checkLogin');
+        $result = '';
+
+        if(isset($_SESSION['login_error'])) {
+            $message = $_SESSION['login_error'][0];
+            $color = $_SESSION['login_error'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <br>
+        <form action="${checkLogin}" method="POST">
+            <div>
+                <label for="name">Nom d'utilisateur :</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <button name="submit" type="submit">Se connecter</button>
+        </form>
+        HTML;
+        return $result;
+    }
+
+    private function renderViewSignup() {
+        $router = new \mf\router\Router();
+        $checkSignup = $router->urlFor('checkSignup');
+        $site_name = self::$app_title;
+        $result = '';
+
+        if(isset($_SESSION['signup_error'])) {
+            $message = $_SESSION['signup_error'][0];
+            $color = $_SESSION['signup_error'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <br>
+        <h1>Inscription à ${site_name}</h1>
+        <form action="${checkSignup}" method="POST">
+            <div>
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" name="username" id="username">
+                <small id="username">Utiliser pour la connexion</small>
+            </div>
+            <div>
+                <label for="name">Nom complet :</label>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <label for="password">Mot de passe :</label>
+                <input type="password" name="password" id="password">
+            </div>
+            <div>
+                <label for="password_confirmation">Confirmer le mot de passe :</label>
+                <input type="password" name="password_confirmation" id="password_confirmation">
+            </div>
+            <button name="submit" type="submit">S'inscrire</button>
+        </form>
+        HTML;
+
+        return $result;
+    }
+
+    private function renderViewPassword() {
+        $router = new \mf\router\Router();
+        $checkPassword = $router->urlFor('checkPassword');
+        $result = '';
+
+        if(isset($_SESSION['password_info'])) {
+            $message = $_SESSION['password_info'][0];
+            $color = $_SESSION['password_info'][1];
+
+            $result .= <<<HTML
+            <p style="color:${color}">${message}</p>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <h1>Modification de votre mot de passe</h1>
+        <div>
+            <form action="${checkPassword}" method="POST">
+                <div>
+                    <label for="currentPassword">Mot de passe actuel :</label>
+                    <input type="password" name="currentPassword" id="currentPassword">
+                </div>
+                <div>
+                    <label for="newPassword">Nouveau mot de passe :</label>
+                    <input type="password" name="newPassword" id="newPassword">
+                </div>
+                <div>
+                    <label for="newPasswordConfirmation">Confirmer le nouveau mot de passe :</label>
+                    <input type="password" name="newPasswordConfirmation" id="newPasswordConfirmation">
+                </div>
+                <button name="submit" type="submit">Changer de mot de passe</button>
+            </form>
+        </div>
+        HTML;
+        
+        return $result;
+    }
+
     protected function renderBody($selector)
     {
         $header = $this->renderHeader();
@@ -186,6 +321,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         <section>${selecteur}</section>
         <footer>${footer}</footer>
         HTML;
+
         return $html;
     }
 }
