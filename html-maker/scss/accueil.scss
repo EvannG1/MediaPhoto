@@ -2,16 +2,11 @@
 @import "_vars.scss";
 
 @import "_nav.scss";
+@import "_elements.scss";
 @import "_utils.scss";
 
 body{
   font-family: $body-font-family;
-}
-
-input, label, textarea, button{
-  font-family: $input-font-family;
-  font-weight: 300;
-  outline: none;
 }
 
 article{
