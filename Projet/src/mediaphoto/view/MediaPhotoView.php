@@ -17,28 +17,44 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $logout = $router->urlFor('viewLogout');
         $password = $router->urlFor('viewPassword');
 
-        $result = <<<HTML
-        <div>
-            <a href="${home}">Super Logo</a>
-        </div>
-        HTML;
-
         if(!$auth->logged_in) {
-            $result .= <<<HTML
-            <div>
-                <a href="${login}">Connexion</a>
-                <a href="${signup}">Inscription</a>
-            </div>
+            $result = <<<HTML
+            <nav>
+                <div class="nav-link">
+                    <a href="${home}">Accueil</a>
+                </div>
+                <a href="${home}">
+                    <img class="logo" src="/html/assets/img/logo.png" alt="MediaPhoto" />
+                </a>
+                <div class="nav-setting">
+                    <a href="${login}"><img src="/html/assets/img/login.svg" alt="Connexion">
+                        <p>Connexion</p>
+                    </a>
+                    <a href="${signup}"><img src="/html/assets/img/signup.svg" alt="Inscription">
+                        <p>Inscription</p>
+                    </a>
+                </div>
+            </nav>
             HTML;
         } else {
-            $name = $_SESSION['user_login'];
-            $result .= <<<HTML
-            <div>
-                <a href="#">Poster une photo</a>
-                <a href="#">Mes photos</a>
-                <a href="${password}">${name}</a>
-                <a href="${logout}">Déconnexion</a>
-            </div>
+            $result = <<<HTML
+            <nav>
+                <div class="nav-link">
+                    <a href="#">Poster une photo</a>
+                    <a href="#">Mes photos</a>
+                </div>
+                <a href="${home}">
+                    <img class="logo" src="/html/assets/img/logo.png" alt="MediaPhoto" />
+                </a>
+                <div class="nav-setting">
+                    <a href="${password}"><img src="/html/assets/img/setting.svg" alt="Paramètres">
+                        <p>$_SESSION[user_login]</p>
+                    </a>
+                    <a href="${logout}"><img src="/html/assets/img/disconnect.svg" alt="Déconnexion">
+                        <p>Déconnexion</p>
+                    </a>
+                </div>
+            </nav>
             HTML;
         }
 
@@ -46,48 +62,119 @@ class MediaPhotoView extends \mf\view\AbstractView {
     }
 
     private function renderFooter() {
-        return '';
+        return '<br><br>';
     }
 
     private function renderHome() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
         $galleries = $this->data;
+
         $result = <<<HTML
-        <center>
-            <form action="" method="post">
-                <input type="text" name="searchBar" placeholder="RECHERCHER">
-                <div>
-                    <input type="radio" name="byTitle" id="byTitle">
-                    <label for="byTitle">Par titre</label>
-                    <input type="radio" name="byUsername" id="byUsername">
-                    <label for="byTitle">Par utilisateur</label>
-                    <input type="radio" name="byGroup" id="byGroup">
-                    <label for="byTitle">Par groupe</label>
-                </div>
-                <button type="submit" name="search">OK</button>
-            </form>
-            <h2>Dernières publications</h2>
-        </center>
+        <!-- Début bloc de recherche -->
+          <article class="block-search">
+              <h1>Bienvenue sur <strong>media photo</strong></h1>
+              <form class="form-search" action="" method="post">
+                  <div class="input-text">
+                      <input type="text" name="search" placeholder="Rechercher..." />
+                      <input type="submit" value="OK" />
+                  </div>
+                  <div class="form-select-filter">
+                      <div>
+                          <input checked type="checkbox" id="filter-image" name="filter" value="image">
+                          <label for="filter-image">image</label>
+                      </div>
+                      <div>
+                          <input type="checkbox" id="filter-gallerie" name="filter" value="gallerie">
+                          <label for="filter-gallerie">gallerie</label>
+                      </div>
+                      <div>
+                          <input type="checkbox" id="filter-tag" name="filter" value="tag">
+                          <label for="filter-tag">tag</label>
+                      </div>
+                      <div>
+                          <input type="checkbox" id="filter-user" name="filter" value="user">
+                          <label for="filter-user">utilisateur</label>
+                      </div>
+                  </div>
+              </form>
+          </article>
+          <!-- Fin bloc de recherche -->
         HTML;
-        foreach($galleries as $g) {
-            $title = $g->titre;
-            $desc = $g->description;
-            $date = $g->date;
-            $link = $router->urlFor('viewGallery', array('id' => $g->id));
+                if($auth->logged_in) {
+                    $userId = \mediaphoto\model\User::getLoggedUserId();
+                    $userGalleries = \mediaphoto\model\Gallery::getUserGalleries($userId);
+
+                    $result .= <<<HTML
+                    <!-- Début liste de vos galeries -->
+                    <article id="content-gallerie" class="content-block">
+                        <h1>Liste de vos galeries</h1>
+                        <div class="block-list">
+                    HTML;
+                    foreach($userGalleries as $ug) {
+                        $galleryId = $ug->id;
+                        $titre = $ug->titre;
+                        $link = $router->urlFor('viewGallery', array('id' => $galleryId));
+                        $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->LIMIT(1)->first()->chemin;
+                        $nbPhotos = \mediaphoto\model\Photo::where('id_galerie', '=', $galleryId)->count();
+
+                        $result .= <<<HTML
+                        <div class="card">
+                            <a href="${link}">
+                                <div class="card-body">
+                                    <img src="${path}" alt="${titre}">
+                                    <p>${titre}</p>
+                                </div>
+                            </a>
+                            <div class="card-footer">
+                                <p>${nbPhotos} PHOTOS</p>
+                            </div>
+                        </div>
+                        HTML;
+                    }
+                    $result .= <<<HTML
+                    <div class="card-add">
+                      <a href="#" title="Créer gallerie">
+                          <img src="/html/assets/img/add.svg" alt="Créer gallerie" />
+                            </a>
+                        </div>
+                    </div>
+                </article>
+                <!-- Fin liste de vos galeries -->
+                HTML;
+                }
+                
+        $result .= <<<HTML
+        <article id="content-last-post" class="content-block">
+            <h1>Dernières publications</h1>
+            <div class="block-vignette">
+        HTML;
+
+        $limit = 15;
+        $photos = \mediaphoto\model\Photo::select()->LIMIT($limit)->orderByDesc('id')->get();
+
+        foreach($photos as $p) {
+            $title = $p->titre;
+            $path = $p->chemin;
+            $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
-                <hr>
-                <a href="${link}">Titre de la galerie : ${title}</a>
-                <br>
-                Description : ${desc}
-                <br>
-                Date de publication : ${date}
-                <hr>
+            <a href="${link}">
+                <img src="${path}" alt="${title}" />
+                <div class="card-footer">
+                    <p>${title}</p>
+                </div>
+            </a>
             HTML;
         }
 
         $result .= <<<HTML
-        <a href="#">Voir plus</a>
+        </div>
+        <button class="btn-show-more">
+            VOIR PLUS
+            <img src="/html/assets/img/right_arrow.svg" alt="Voir plus" />
+        </button>
+        </article>
         HTML;
 
         return $result;
@@ -318,7 +405,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         $html = <<<HTML
         <header>${header}</header>
-        <section>${selecteur}</section>
+        ${selecteur}
         <footer>${footer}</footer>
         HTML;
 
