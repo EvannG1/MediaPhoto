@@ -15,7 +15,7 @@ input, label, textarea, button{
 }
 
 article{
-  width: 80%;
+  width: $article-width;
   display: block;
   margin: $vertical-margin auto 0 auto;
 }
