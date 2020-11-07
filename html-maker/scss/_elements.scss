@@ -48,6 +48,10 @@ input[type="submit"], input[type="button"], button{
   border: 1px solid $primary-color;
   box-sizing: border-box;
   padding: 10px;
+  transition: background-color 0.3s;
+  &:hover{
+    background-color: rgba($primary-color, 0.6);
+  }
 }
 
 input[type="checkbox"]{
