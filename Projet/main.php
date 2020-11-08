@@ -22,6 +22,8 @@ MediaPhotoView::addFont('https://fonts.googleapis.com/css2?family=Lato:wght@300;
 MediaPhotoView::addStyleSheet('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
 MediaPhotoView::addStyleSheet('/html/assets/css/utils.css');
 
+MediaPhotoView::addScript('/html/assets/js/test.js');
+
 $config = parse_ini_file('conf/config.ini');
 $db = new \Illuminate\Database\Capsule\Manager();
 $db->addConnection($config);
