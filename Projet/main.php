@@ -15,7 +15,8 @@ use mediaphoto\auth\MediaPhotoAuthentification;
 // Titre de la page
 MediaPhotoView::setAppTitle('MediaPhoto');
 // Importation de la feuille de style
-MediaPhotoView::addStyleSheet('html/assets/css/style.css');
+MediaPhotoView::addStyleSheet('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
+MediaPhotoView::addStyleSheet('/html/assets/css/utils.css');
 
 $config = parse_ini_file('conf/config.ini');
 $db = new \Illuminate\Database\Capsule\Manager();
