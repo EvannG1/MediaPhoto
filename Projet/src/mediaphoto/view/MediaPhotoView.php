@@ -320,6 +320,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
     private function renderViewSignup() {
         $router = new \mf\router\Router();
         $checkSignup = $router->urlFor('checkSignup');
+        $site_name = self::$app_title;
         $result = '';
 
         if(isset($_SESSION['signup_error'])) {
@@ -332,7 +333,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         }
 
         $result .= <<<HTML
-        <h1>Inscription à mes couilles</h1>
+        <h1>Inscription à ${site_name}</h1>
         <hr style="width: 70%">
         <form action="${checkSignup}" method="POST">
             <div>
