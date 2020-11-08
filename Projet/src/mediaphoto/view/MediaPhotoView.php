@@ -75,24 +75,24 @@ class MediaPhotoView extends \mf\view\AbstractView {
           <article class="block-search">
               <h1>Bienvenue sur <strong>media photo</strong></h1>
               <form class="form-search" action="" method="post">
-                  <div class="input-text">
+                  <div class="input-tb-submit">
                       <input type="text" name="search" placeholder="Rechercher..." />
                       <input type="submit" value="OK" />
                   </div>
                   <div class="form-select-filter">
-                      <div>
+                      <div class="checkbox-group">
                           <input checked type="checkbox" id="filter-image" name="filter" value="image">
                           <label for="filter-image">image</label>
                       </div>
-                      <div>
+                      <div class="checkbox-group">
                           <input type="checkbox" id="filter-gallerie" name="filter" value="gallerie">
                           <label for="filter-gallerie">gallerie</label>
                       </div>
-                      <div>
+                      <div class="checkbox-group">
                           <input type="checkbox" id="filter-tag" name="filter" value="tag">
                           <label for="filter-tag">tag</label>
                       </div>
-                      <div>
+                      <div class="checkbox-group">
                           <input type="checkbox" id="filter-user" name="filter" value="user">
                           <label for="filter-user">utilisateur</label>
                       </div>
@@ -107,7 +107,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
                     $result .= <<<HTML
                     <!-- Début liste de vos galeries -->
-                    <article id="content-gallerie" class="content-block">
+                    <article id="content-galerie" class="content-block">
                         <h1>Liste de vos galeries</h1>
                         <div class="block-list">
                     HTML;
@@ -300,6 +300,8 @@ class MediaPhotoView extends \mf\view\AbstractView {
         }
 
         $result .= <<<HTML
+        <h1>Connexion</h1>
+        <hr style="width: 70%">
         <form action="${checkLogin}" method="POST">
             <div>
                 <label for="name">Nom d'utilisateur :</label>
@@ -330,7 +332,8 @@ class MediaPhotoView extends \mf\view\AbstractView {
         }
 
         $result .= <<<HTML
-        <br>
+        <h1>Inscription à mes couilles</h1>
+        <hr style="width: 70%">
         <form action="${checkSignup}" method="POST">
             <div>
                 <label for="username">Nom d'utilisateur :</label>
@@ -371,6 +374,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         $result .= <<<HTML
         <h1>Modification de votre mot de passe</h1>
+        <hr style="width: 70%">
         <div>
             <form action="${checkPassword}" method="POST">
                 <div>
