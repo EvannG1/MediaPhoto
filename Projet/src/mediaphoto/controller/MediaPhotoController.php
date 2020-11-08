@@ -2,6 +2,8 @@
 
 namespace mediaphoto\controller;
 
+use mediaphoto\view\MediaPhotoView;
+
 class MediaPhotoController extends \mf\control\AbstractController {
     public function __construct()
     {
@@ -9,6 +11,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewHome() {
+        MediaPhotoView::addStyleSheet('/html/assets/css/accueil.css');
         $galleries = \mediaphoto\model\Gallery::select()->orderBy('id', 'desc')->get();
         $vue = new \mediaphoto\view\MediaPhotoView($galleries);
         $vue->render('renderHome');
