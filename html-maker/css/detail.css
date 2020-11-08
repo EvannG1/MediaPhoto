@@ -22,10 +22,6 @@ header nav .nav-link {
 header nav .nav-link > a {
   margin-right: 20px;
   text-transform: uppercase;
-  transition: opacity 0.5s;
-}
-header nav .nav-link > a:hover {
-  opacity: 0.6;
 }
 header nav .logo {
   height: 40px;
@@ -43,15 +39,9 @@ header nav .nav-setting a {
   flex-wrap: nowrap;
   margin-right: 20px;
 }
-header nav .nav-setting a > p {
-  transition: opacity 0.5s;
-}
 header nav .nav-setting a > img {
   margin-right: 10px;
   transition: transform 0.5s;
-}
-header nav .nav-setting a:hover > p {
-  opacity: 0.6;
 }
 header nav .nav-setting a:hover > img {
   transform: scale(0.9);
@@ -123,6 +113,7 @@ input[type=checkbox] {
   padding: 0;
   margin: 0px 10px 0 0;
   box-sizing: content-box;
+  cursor: pointer;
 }
 input[type=checkbox]:checked {
   appearance: none;
@@ -146,6 +137,28 @@ input, label, textarea, button, select {
   font-family: "Lato", sans-serif;
   font-weight: 300;
   outline: none;
+}
+
+a {
+  color: inherit;
+  transition: opacity 0.4s;
+}
+a:hover {
+  opacity: 0.7;
+}
+
+p {
+  font-size: 16px;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2, h3 {
+  font-size: 20px;
 }
 
 hr {
@@ -230,6 +243,9 @@ hr {
 }
 .block-search .form-search .input-tb-submit {
   width: 90%;
+}
+.block-search .form-search label {
+  cursor: pointer;
 }
 .block-search .form-select-filter {
   display: flex;
@@ -328,6 +344,7 @@ hr {
   display: flex;
   overflow: hidden;
   flex-wrap: wrap;
+  justify-content: center;
 }
 .block-vignette a {
   position: relative;
@@ -335,12 +352,14 @@ hr {
   height: 120px;
   overflow: hidden;
   margin: 2.5px;
-  flex-grow: 0.5;
   max-width: 350px;
-  transition: opacity 0.6s;
+  border: 1px solid white;
+  transition: transform 0.8s;
 }
 .block-vignette a:hover {
-  opacity: 0.85;
+  opacity: 1;
+  transform: scale(1.07);
+  z-index: 999;
 }
 .block-vignette img {
   height: auto;
@@ -428,20 +447,6 @@ body {
   font-family: "Marvel", sans-serif;
 }
 
-p {
-  font-size: 16px;
-  font-family: "Lato", sans-serif;
-  font-weight: 300;
-}
-
-h1 {
-  font-size: 21px;
-}
-
-h2, h3 {
-  font-size: 20px;
-}
-
 article {
   width: 80%;
   display: block;
@@ -473,7 +478,7 @@ article {
   right: -40px;
   transform: rotate(180deg);
 }
-.picture-block .in-gallerie .block-vignette {
+.picture-block .in-galerie .block-vignette {
   border: 1px dashed rgba(0, 0, 0, 0.1);
 }
 

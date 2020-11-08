@@ -22,10 +22,6 @@ header nav{
     & > a{
       margin-right: 20px;
       text-transform: uppercase;
-      transition: opacity 0.5s;
-      &:hover{
-        opacity: 0.6;
-      }
     }
   }
   .logo{
@@ -44,17 +40,9 @@ header nav{
       flex-wrap: nowrap;
       margin-right: 20px;
 
-      & > p{
-        transition: opacity 0.5s;
-      }
-
       & > img{
         margin-right: 10px;
         transition: transform 0.5s;
-      }
-
-      &:hover > p{
-        opacity: 0.6;
       }
 
       &:hover > img{

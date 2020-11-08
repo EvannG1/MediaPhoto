@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Marvel:wght@300;400&display=swap" rel="stylesheet">
   <title>ACCUEIL | MediaPhoto</title>
-  <link rel="stylesheet" href="./css/accueil.css">
+  <link rel="stylesheet" href="./css/galerie.css">
 </head>
 <body>
   <header>
@@ -27,20 +27,16 @@
     </nav>
   </header>
   <article class="block-search">
-    <h1>Bienvenue sur <strong>media photo</strong></h1>
+    <h1>Galerie <strong><u>voiture</u></strong></h1>
     <form class="form-search" action="" method="post">
       <div class="input-tb-submit">
-        <input type="text" name="search" placeholder="Rechercher..."/>
+        <input type="text" name="search" placeholder="Rechercher dans la galerie..."/>
         <input type="submit" value="OK" />
       </div>
       <div class="form-select-filter">
         <div class="checkbox-group">
           <input checked type="checkbox" id="filter-image" name="filter" value="image">
           <label for="filter-image">image</label>
-        </div>
-        <div class="checkbox-group">
-          <input type="checkbox" id="filter-galerie" name="filter" value="galerie">
-          <label for="filter-galerie">galerie</label>
         </div>
         <div class="checkbox-group">
           <input type="checkbox" id="filter-tag" name="filter" value="tag">
@@ -53,39 +49,19 @@
       </div>
     </form>
   </article>
-  <article id="content-galerie" class="content-block">
-    <h1>Liste de vos galeries</h1>
-    <div class="block-list">
-      <div class="card">
-        <a href="#">
-          <div class="card-body">
-            <img src="./img/anabelle.png" alt="Film d'horreur">
-            <p>Film d'horreur</p>
-          </div>
-        </a>
-        <div class="card-footer">
-          <p>4 PHOTOS - CRÉÉ PAR <a href="#">OzzieOZK</a></p>
-        </div>
-      </div>
-      <div class="card">
-        <a href="#">
-          <div class="card-body">
-            <img src="./img/dreamcar.png" alt="MES VOITURES DE RÊVE">
-            <p>MES VOITURES DE RÊVE</p>
-          </div>
-        </a>
-        <div class="card-footer">
-          <p>2 PHOTOS - CRÉÉ PAR <a href="#">VOUS</a></p>
-        </div>
-      </div>
-      <div class="card-add">
-        <a href="#" title="Créer galerie">
-          <img src="./img/add.svg" alt="Créer galerie"/>
-        </a>
-      </div>
-    </div>
+  <article>
+    <h3>Description :</h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tempus sem sit amet mauris euismod vulputate. Integer efficitur quis sapien ac imperdiet. Suspendisse convallis velit est, vitae tempor nisl egestas ac. Praesent quis ligula non massa suscipit ultricies non quis dolor. Maecenas tincidunt posuere egestas. Curabitur fermentum varius placerat. Duis tristique urna posuere, blandit tortor eu, placerat felis. Donec quis dapibus nulla. In id mi finibus, consequat nisi nec, tincidunt ligula.
+    </p>
+    <hr style="width: 50%;">
+    <h3>A propos de la galerie :</h3>
+    <p>Créé par : <a href="#">lucaas855</a></p>
+    <p>Taille totale de la galerie : 123ko</p>
+    <p>Membre de la galerie : <a href="#">lucaas855</a>, <a href="#">vivz</a>, <a href="#">ozzieozk</a>, <a href="#">evann</a>, <a href="#">Ludo</a></p>
   </article>
-  <article id="content-last-post" class="content-block">
+  <hr style="width: 50%;">
+  <article id="content-most-commented" class="content-block">
     <h1>Dernières publications</h1>
     <div class="block-vignette">
       <a href="#">
@@ -160,87 +136,6 @@
           <p>Ca</p>
         </div>
       </a>
-    </div>
-    <button class="btn-show-more">
-      VOIR PLUS
-      <img src="./img/right_arrow.svg" alt="Voir plus"/>
-    </button>
-  </article>
-  <article id="content-most-commented" class="content-block">
-    <h1>Les images les plus commentées</h1>
-    <div class="block-vignette">
-      <a href="#">
-        <img src="./img/anabelle.png" alt="Anabelle"/>
-        <div class="card-footer">
-          <p>Anabelle</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/american_nightmare.png" alt="AMERICAN NIGHTMARE"/>
-        <div class="card-footer">
-          <p>AMERICAN NIGHTMARE</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/Ca.png" alt="Ca"/>
-        <div class="card-footer">
-          <p>Ca</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/telez.png" alt="Tele Z"/>
-        <div class="card-footer">
-          <p>Tele Z</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/Ca.png" alt="Ca"/>
-        <div class="card-footer">
-          <p>Ca</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/TESLA.png" alt="TESLA"/>
-        <div class="card-footer">
-          <p>TESLA</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/BUGATTI.png" alt="BUGATTI"/>
-        <div class="card-footer">
-          <p>BUGATTI</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/AVENGERS.png" alt="AVANGERS"/>
-        <div class="card-footer">
-          <p>AVENGERS</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/FORTNIITE.png" alt="FORTNIITE"/>
-        <div class="card-footer">
-          <p>FORTNIITE</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/ANABELLE.png" alt="ANABELLE"/>
-        <div class="card-footer">
-          <p>ANABELLE</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/AVENGERS.png" alt="AVENGERS"/>
-        <div class="card-footer">
-          <p>AVENGERS</p>
-        </div>
-      </a>
-      <a href="#">
-        <img src="./img/Ca.png" alt="Ca"/>
-        <div class="card-footer">
-          <p>Ca</p>
-        </div>
-      </a>
       <a href="#">
         <img src="./img/FORTNIITE.png" alt="FORTNIITE"/>
         <div class="card-footer">
@@ -278,11 +173,14 @@
         </div>
       </a>
     </div>
-    <button class="btn-show-more">
+    <button class="btn-show-more" data-id-galerie="3" data-nb-increment="15" data-actual-offset="15">
       VOIR PLUS
       <img src="./img/right_arrow.svg" alt="Voir plus"/>
     </button>
   </article>
   <br><br>
+  <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+  <script> window.jQuery || document.write('<script src="js/jquery-3.2.1.js"><\/script>')</script>
+  <script src="./js/vignette.js"></script>
   </body>
   </html>

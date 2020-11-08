@@ -1,4 +1,52 @@
 @import "https://necolas.github.io/normalize.css/8.0.1/normalize.css";
+header nav {
+  height: 70px;
+  background-color: #F6F6F6;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  padding: 0 50px;
+  font-family: "Lato", sans-serif;
+}
+header nav a {
+  text-decoration: none;
+  color: black;
+}
+header nav .nav-link {
+  width: 40%;
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+}
+header nav .nav-link > a {
+  margin-right: 20px;
+  text-transform: uppercase;
+}
+header nav .logo {
+  height: 40px;
+}
+header nav .nav-setting {
+  width: 40%;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: nowrap;
+}
+header nav .nav-setting a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-right: 20px;
+}
+header nav .nav-setting a > img {
+  margin-right: 10px;
+  transition: transform 0.5s;
+}
+header nav .nav-setting a:hover > img {
+  transform: scale(0.9);
+}
+
 input[type=text], input[type=password], input[type=number] {
   font-size: 14px;
   font-family: "Lato", sans-serif;
@@ -336,12 +384,17 @@ hr {
 }
 
 body {
-  width: 80%;
-  padding: 100px;
-}
-body > * {
-  display: block;
-  margin: 15px auto;
+  font-family: "Marvel", sans-serif;
 }
 
-/*# sourceMappingURL=example-module.css.map */
+article {
+  width: 80%;
+  display: block;
+  margin: 60px auto 0 auto;
+}
+
+.btn-show-more {
+  margin: 0 auto;
+}
+
+/*# sourceMappingURL=galerie.css.map */
