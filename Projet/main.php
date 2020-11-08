@@ -14,6 +14,10 @@ use mediaphoto\auth\MediaPhotoAuthentification;
 
 // Titre de la page
 MediaPhotoView::setAppTitle('MediaPhoto');
+
+// Importation police
+MediaPhotoView::addFont('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&family=Marvel:wght@300;400&display=swap');
+
 // Importation de la feuille de style
 MediaPhotoView::addStyleSheet('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
 MediaPhotoView::addStyleSheet('/html/assets/css/utils.css');
