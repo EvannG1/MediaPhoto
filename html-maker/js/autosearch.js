@@ -49,7 +49,16 @@ $(document).ready(function() {
 
           $(elemC).on("click", autosearch.modules.handlerautosearch.deleteTagFromList);
           document.getElementById('p-list-tags').append(elemC);
-          document.getElementById('input-tagList').value = JSON.stringify(listTag);
+          let strTag = null;
+          listTag.forEach(elem => {
+            if(!strTag){
+              strTag = elem;
+            }
+            else{
+              strTag += ',' + elem;
+            }
+          });
+          document.getElementById('input-tagList').value = strTag;
         }
         else
         {
@@ -67,7 +76,16 @@ $(document).ready(function() {
         });
         document.getElementById('p-list-tags').innerHTML = chn;
         autosearch.modules.handlerautosearch.addEventClickForListTag();
-        document.getElementById('input-tagList').value = JSON.stringify(listTag);
+        let strTag = null;
+        listTag.forEach(elem => {
+          if(!strTag){
+            strTag = elem;
+          }
+          else{
+            strTag += ',' + elem;
+          }
+        });
+        document.getElementById('input-tagList').value = strTag;
       },
       addEventClickForListTag()
       {

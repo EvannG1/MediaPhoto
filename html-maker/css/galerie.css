@@ -12,4 +12,21 @@ article {
   margin: 0 auto;
 }
 
+.block-title-page {
+  background-color: rgba(22, 160, 133, 0.1);
+  padding: 90px 0;
+  text-align: center;
+}
+.block-title-page h1 {
+  color: black;
+  text-transform: uppercase;
+  letter-spacing: 5.4px;
+  font-weight: 300;
+  margin: 0;
+}
+.block-title-page h1 strong {
+  color: rgba(22, 160, 133, 0.5);
+  font-style: normal;
+}
+
 /*# sourceMappingURL=galerie.css.map */
