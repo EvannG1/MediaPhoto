@@ -374,7 +374,12 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['login_error'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 
@@ -407,7 +412,12 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['signup_error'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 
@@ -448,7 +458,12 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['password_info'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 

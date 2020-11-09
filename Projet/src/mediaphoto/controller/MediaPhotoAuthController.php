@@ -106,7 +106,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                             header('Location:' . $router->urlFor('home'));
                             exit;
                         } else {
-                            $auth->generateMessage('signup_error', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewSignup');
+                            $auth->generateMessage('signup_error', array('Les mots de passe ne correspondent pas.', 'red'), 'viewSignup');
                         }
                     } catch(\mf\auth\exception\AuthentificationException $e) {
                         $auth->generateMessage('signup_error', array($e->getMessage(), 'red'), 'viewSignup');
@@ -163,7 +163,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
 
                             $auth->generateMessage('password_info', array('Votre mot de passe a bien été modifié.', 'green'), 'viewPassword');
                         } else {
-                            $auth->generateMessage('password_info', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewPassword');
+                            $auth->generateMessage('password_info', array('Les mots de passe ne correspondent pas.', 'red'), 'viewPassword');
                         }
                     } else {
                         $auth->generateMessage('password_info', array('Le mot de passe actuel est incorrect.', 'red'), 'viewPassword');
