@@ -6,6 +6,8 @@ abstract class AbstractView {
 
     static protected $style_sheets = []; /* un tableau de fichiers style */
     static protected $app_title    = "MF app Title"; /* un titre de document */
+    static protected $fonts = []; /* un tableau de polices */
+    static protected $scripts = []; /* un tableau de scripts */
     
     protected $data        = null; /* les données nécessaires */
     
@@ -40,6 +42,14 @@ abstract class AbstractView {
 
     static public function addStyleSheet($path_to_css_files){
         self::$style_sheets[] = $path_to_css_files;
+    }
+
+    static public function addFont($path_to_font){
+        self::$fonts[] = $path_to_font;
+    }
+
+    static public function addScript($path_to_script){
+        self::$scripts[] = $path_to_script;
     }
 
     /* Méthode setAppTitle 
@@ -101,11 +111,20 @@ abstract class AbstractView {
         /* le titre du document */
         $title = self::$app_title;
 
-        /* les feuilles de style */
+        /* les feuilles de style / polices / scripts */
         $app_root = (new \mf\utils\HttpRequest())->root;
         $styles = '';
+        $fonts = '';
+        $scripts = '';
+
         foreach ( self::$style_sheets as $file )
             $styles .= '<link rel="stylesheet" href="'.$file.'"> ';
+
+        foreach ( self::$fonts as $font )
+            $fonts .= '<link rel="stylesheet" href="'.$font.'"> ';
+
+        foreach ( self::$scripts as $script )
+            $scripts .= '<script src="'.$script.'"></script> ';
 
         /* on appele la methode renderBody de la sous classe */
         $body = $this->renderBody($selector);
@@ -123,6 +142,7 @@ abstract class AbstractView {
     <head>
         <meta charset="utf-8">
         <title>${title}</title>
+        ${fonts}
 	    ${styles}
     </head>
 
@@ -130,6 +150,7 @@ abstract class AbstractView {
         
        ${body}
 
+       ${scripts}
     </body>
 </html>
 EOT;

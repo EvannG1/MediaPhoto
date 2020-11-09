@@ -11,7 +11,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function login() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/connexion.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -24,7 +24,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkLogin() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/connexion.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -62,7 +62,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function signup() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/inscription.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -75,7 +75,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkSignup() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/inscription.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if($auth->logged_in) {
             $router = new \mf\router\Router();
@@ -106,7 +106,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
                             header('Location:' . $router->urlFor('home'));
                             exit;
                         } else {
-                            $auth->generateMessage('signup_error', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewSignup');
+                            $auth->generateMessage('signup_error', array('Les mots de passe ne correspondent pas.', 'red'), 'viewSignup');
                         }
                     } catch(\mf\auth\exception\AuthentificationException $e) {
                         $auth->generateMessage('signup_error', array($e->getMessage(), 'red'), 'viewSignup');
@@ -129,7 +129,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function changePassword() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/password.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -142,7 +142,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
     }
 
     public function checkChangePassword() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/password.css');
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -163,7 +163,7 @@ class MediaPhotoAuthController extends \mf\control\AbstractController {
 
                             $auth->generateMessage('password_info', array('Votre mot de passe a bien été modifié.', 'green'), 'viewPassword');
                         } else {
-                            $auth->generateMessage('password_info', array('Les mots de passe ne corresspondent pas.', 'red'), 'viewPassword');
+                            $auth->generateMessage('password_info', array('Les mots de passe ne correspondent pas.', 'red'), 'viewPassword');
                         }
                     } else {
                         $auth->generateMessage('password_info', array('Le mot de passe actuel est incorrect.', 'red'), 'viewPassword');

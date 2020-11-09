@@ -1,0 +1,43 @@
+@import "_vars.scss";
+
+body{
+  font-family: $body-font-family;
+}
+
+input, label, textarea, button{
+  font-family: $input-font-family;
+  font-weight: 300;
+  outline: none;
+}
+
+article{
+  width: $article-width;
+  display: block;
+  margin: $vertical-margin auto 0 auto;
+}
+
+h1{
+  text-align: center;
+  margin-top: $vertical-margin;
+}
+
+.btn-show-more{
+  margin: 0 auto;
+}
+
+form{
+    width: 25%;
+    margin: 0 auto;
+    margin-top: $vertical-margin;
+    input{
+        display: block;
+        margin-top: $vertical-margin / 2;
+        margin-bottom: $vertical-margin / 2;
+        width: 100%;
+    }
+}
+
+button{
+    margin-bottom: $vertical-margin;
+    width: 100%;
+}

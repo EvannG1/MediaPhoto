@@ -69,31 +69,32 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
         $galleries = $this->data;
+        $search_link = $router->urlFor('checkSearch');
 
         $result = <<<HTML
         <!-- Début bloc de recherche -->
           <article class="block-search">
               <h1>Bienvenue sur <strong>media photo</strong></h1>
-              <form class="form-search" action="" method="post">
-                  <div class="input-text">
+              <form class="form-search" action="${search_link}" method="POST">
+                  <div class="input-tb-submit">
                       <input type="text" name="search" placeholder="Rechercher..." />
-                      <input type="submit" value="OK" />
+                      <input name="submit" type="submit" value="OK" />
                   </div>
                   <div class="form-select-filter">
-                      <div>
-                          <input checked type="checkbox" id="filter-image" name="filter" value="image">
-                          <label for="filter-image">image</label>
+                      <div class="checkbox-group">
+                          <input checked type="checkbox" id="filter-photo" name="filter-photo" value="photo">
+                          <label for="filter-photo">photo</label>
                       </div>
-                      <div>
-                          <input type="checkbox" id="filter-gallerie" name="filter" value="gallerie">
-                          <label for="filter-gallerie">gallerie</label>
+                      <div class="checkbox-group">
+                          <input type="checkbox" id="filter-galerie" name="filter-galerie" value="galerie">
+                          <label for="filter-galerie">galerie</label>
                       </div>
-                      <div>
-                          <input type="checkbox" id="filter-tag" name="filter" value="tag">
+                      <div class="checkbox-group">
+                          <input type="checkbox" id="filter-tag" name="filter-tag" value="tag">
                           <label for="filter-tag">tag</label>
                       </div>
-                      <div>
-                          <input type="checkbox" id="filter-user" name="filter" value="user">
+                      <div class="checkbox-group">
+                          <input type="checkbox" id="filter-user" name="filter-user" value="user">
                           <label for="filter-user">utilisateur</label>
                       </div>
                   </div>
@@ -107,7 +108,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
                     $result .= <<<HTML
                     <!-- Début liste de vos galeries -->
-                    <article id="content-gallerie" class="content-block">
+                    <article id="content-galerie" class="content-block">
                         <h1>Liste de vos galeries</h1>
                         <div class="block-list">
                     HTML;
@@ -184,6 +185,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $router = new \mf\router\Router();
 
         $gallery = $this->data;
+        $id = $gallery->id;
         $title = $gallery->titre;
         $desc = $gallery->description;
         $type = $gallery->type;
@@ -191,14 +193,36 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
-        <center>
-        <h1>Galerie : ${title}</h1>
-        <div>
-            <p>Description : ${desc}</p>
-        </div>
-        <hr>
-        <p>Créé par : ${author}</p>
-        <p>Taille totale de la galerie : ${size}</p>
+        <article class="block-search">
+            <h1>Galerie <strong><u>${title}</u></strong></h1>
+            <form class="form-search" action="" method="POST">
+                <div class="input-tb-submit">
+                    <input type="text" name="search" placeholder="Rechercher dans la galerie...">
+                    <input type="submit" value="OK">
+                </div>
+                <div class="form-select-filter">
+                    <div class="checkbox-group">
+                        <input checked type="checkbox" id="filter-image" name="filter" value="image">
+                        <label for="filter-image">image</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filter-tag" name="filter" value="tag">
+                        <label for="filter-tag">tag</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filter-user" name="filter" value="user">
+                        <label for="filter-user">utilisateur</label>
+                    </div>
+                </div>
+            </form>
+        </article>
+        <article>
+            <h3>Description :</h3>
+            <p>${desc}</p>
+            <hr style="width: 50%;">
+            <h3>A propos de la galerie :</h3>
+            <p>Créé par : <a href="#">${author}</a></p>
+            <p>Taille totale de la galerie : ${size}</p>
         HTML;
         
         if($type == 3) {
@@ -210,14 +234,16 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $share = implode(', ', $share);
 
             $result .= <<<HTML
-            <p>Partagé avec : ${share}</p>
+            <p>Membre de la galerie : ${share}</p>
             HTML;
         }
 
         $result .= <<<HTML
-        <hr>
-        <h1>Dernière publications</h1>
-        </center>
+        </article>
+        <hr style="width: 50%;">
+        <article id="content-most-commented" class="content-block">
+            <h1>Dernière publications</h1>
+            <div class="block-vignette">
         HTML;
 
         $photos = $gallery->photos()->get();
@@ -228,10 +254,23 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
-            <p>${title}</p>
-            <a href="${link}"><img src="${path}" alt="${title}"></a>
+            <a href="${link}">
+                <img src="${path}" alt="${title}">
+                <div class="card-footer">
+                    <p>${title}</p>
+                </div>
+            </a>
             HTML;
         }
+
+        $result .= <<<HTML
+        </div>
+        <button class="btn-show-more" data-id-galerie="${id}" data-nb-increment="15" data-actual-offset="15">
+            VOIR PLUS
+            <img src="/html/assets/img/right_arrow.svg" alt="Voir plus">
+        </button>
+        </article>
+        HTML;
 
         return $result;
     }
@@ -251,12 +290,40 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $gallery = $photo->gallery()->first()->titre;
         $gallery_id = $photo->id_galerie;
         $get_photos = $photo->getGalleryPhoto($gallery_id, $id, 4);
+        $gallery_link = $router->urlFor('viewGallery', array('id' => $gallery_id));
+
+        $next_photo_id = $photo->getNextPhoto($gallery_id, $id);
+        if($next_photo_id != false) {
+            $next_photo_link = $router->urlFor('viewPhoto', array('id' => $next_photo_id->id));
+        } else {
+            $next_photo_link = false;
+        }
+
+        $previous_photo_id = $photo->getPreviousPhoto($gallery_id, $id);
+        if($previous_photo_id != false) {
+            $previous_photo_link = $router->urlFor('viewPhoto', array('id' => $previous_photo_id->id));
+        } else {
+            $previous_photo_link = false;
+        }
 
         $result = <<<HTML
-        <center>
-            <h1>${title}</h1>
-            <img src="${path}" alt="${title}">
-            <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
+        <article class="content-block">
+        <h1>${title}</h1>
+        <div class="picture-block">
+        <div class="showing" id="My-lightbox-gallery">
+          <div class="vignette solo">
+          <img class="pic" data-img="${path}" data-id="${id}" src="${path}" alt="${title}">
+          </div>
+          <a href="${previous_photo_link}">
+            <img class="left-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher précédent">
+          </a>
+          <a href="${next_photo_link}">
+            <img class="right-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher suivant">
+          </a>
+        </div>
+        <div class="in-galerie">
+        <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
+        <div class="block-vignette">
         HTML;
         
         foreach($get_photos as $p) {
@@ -265,21 +332,34 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $img_link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
+            <a href="${img_link}">
+            <img src="${img_path}" alt="${img_title}">
+            <div class="card-footer">
             <p>${img_title}</p>
-            <a href="${img_link}"><img src="${img_path}" alt="${img_title}" width="10%"></a>
+            </div>
+            </a>
             HTML;
         }
 
         $result .= <<<HTML
-        <hr>
-        <div>
-            <p>Publiée par : ${author}</p>
-            <p>Appartenant à la galerie : ${gallery}</p>
-            <p>Taille de l'image : ${size}</p>
-            <p>Qualité : ${quality}</p>
-            <p>Type : ${type}</p>
         </div>
-        </center>
+        </div>
+        <hr style="width: 50%;">
+        <div class="more-info-block">
+            <h3>A propos de l'image :</h3>
+            <p>
+            Publiée par : <a href="">${author}</a><br>
+            <br>
+            Appartenant à la galerie : <a href="${gallery_link}">${gallery}</a><br>
+            <br>
+            Taille de l'image : ${size}<br>
+            <br>
+            Qualité : ${quality}<br>
+            <br>
+            Type : ${type}
+            </p>
+        </div>
+        </article>
         HTML;
 
         return $result;
@@ -295,11 +375,18 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['login_error'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 
         $result .= <<<HTML
+        <h1>Connexion</h1>
+        <hr style="width: 70%">
         <form action="${checkLogin}" method="POST">
             <div>
                 <label for="name">Nom d'utilisateur :</label>
@@ -318,6 +405,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
     private function renderViewSignup() {
         $router = new \mf\router\Router();
         $checkSignup = $router->urlFor('checkSignup');
+        $site_name = self::$app_title;
         $result = '';
 
         if(isset($_SESSION['signup_error'])) {
@@ -325,12 +413,18 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['signup_error'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 
         $result .= <<<HTML
-        <br>
+        <h1>Inscription à ${site_name}</h1>
+        <hr style="width: 70%">
         <form action="${checkSignup}" method="POST">
             <div>
                 <label for="username">Nom d'utilisateur :</label>
@@ -365,12 +459,18 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $color = $_SESSION['password_info'][1];
 
             $result .= <<<HTML
-            <p style="color:${color}">${message}</p>
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
             HTML;
         }
 
         $result .= <<<HTML
         <h1>Modification de votre mot de passe</h1>
+        <hr style="width: 70%">
         <div>
             <form action="${checkPassword}" method="POST">
                 <div>
@@ -390,6 +490,61 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         HTML;
         
+        return $result;
+    }
+
+    private function renderViewSearch() {
+        $data = $this->data;
+
+        $result = <<<HTML
+        <article id="content-last-post" class="content-block">
+            <h1>Résultat de votre recherche</h1>
+            <div class="block-vignette">
+        HTML;
+
+        if(isset($data['galerie'])) {
+            $router = new \mf\router\Router();
+            foreach($data['galerie'] as $g) {
+                $galleryId = $g->id;
+                $title = $g->titre;
+                $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                $link = $router->urlFor('viewGallery', array('id' => $galleryId));
+
+                $result .= <<<HTML
+                <a href="${link}">
+                    <img src="${path}" alt="${title}" />
+                    <div class="card-footer">
+                        <p>${title}</p>
+                    </div>
+                </a>
+                HTML;
+            }
+        }
+
+        if(isset($data['photo'])) {
+            $router = new \mf\router\Router();
+            foreach($data['photo'] as $p) {
+                $photoId = $p->id;
+                $title = $p->titre;
+                $path = $p->chemin;
+                $link = $router->urlFor('viewPhoto', array('id' => $photoId));
+
+                $result .= <<<HTML
+                <a href="${link}">
+                    <img src="${path}" alt="${title}" />
+                    <div class="card-footer">
+                        <p>${title}</p>
+                    </div>
+                </a>
+                HTML;
+            }
+        }
+
+        $result .= <<<HTML
+        </div>
+        </article>
+        HTML;
+
         return $result;
     }
 
