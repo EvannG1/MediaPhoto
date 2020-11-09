@@ -69,6 +69,7 @@ textarea {
   padding: 10px;
   border: 1px solid #16A085;
   box-sizing: border-box;
+  width: 100%;
 }
 textarea::placeholder {
   color: rgba(22, 160, 133, 0.5);
@@ -213,8 +214,9 @@ hr {
 .input-tb-submit input[type=text] {
   width: 100%;
 }
-.input-tb-submit input[type=submit] {
+.input-tb-submit input[type=submit], .input-tb-submit input[type=button] {
   border-left: 0;
+  width: initial;
 }
 
 .block-search {

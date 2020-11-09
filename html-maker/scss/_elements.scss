@@ -21,6 +21,7 @@ textarea{
   padding: 10px;
   border: 1px solid $primary-color;
   box-sizing: border-box;
+  width: 100%;
 
   &::placeholder{
     color: rgba($primary-color, 0.5);
