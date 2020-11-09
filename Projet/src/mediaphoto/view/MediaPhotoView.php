@@ -69,31 +69,32 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
         $galleries = $this->data;
+        $search_link = $router->urlFor('checkSearch');
 
         $result = <<<HTML
         <!-- Début bloc de recherche -->
           <article class="block-search">
               <h1>Bienvenue sur <strong>media photo</strong></h1>
-              <form class="form-search" action="" method="post">
+              <form class="form-search" action="${search_link}" method="POST">
                   <div class="input-tb-submit">
                       <input type="text" name="search" placeholder="Rechercher..." />
-                      <input type="submit" value="OK" />
+                      <input name="submit" type="submit" value="OK" />
                   </div>
                   <div class="form-select-filter">
                       <div class="checkbox-group">
-                          <input checked type="checkbox" id="filter-image" name="filter" value="image">
-                          <label for="filter-image">image</label>
+                          <input checked type="checkbox" id="filter-photo" name="filter-photo" value="photo">
+                          <label for="filter-photo">photo</label>
                       </div>
                       <div class="checkbox-group">
-                          <input type="checkbox" id="filter-gallerie" name="filter" value="gallerie">
-                          <label for="filter-gallerie">gallerie</label>
+                          <input type="checkbox" id="filter-galerie" name="filter-galerie" value="galerie">
+                          <label for="filter-galerie">galerie</label>
                       </div>
                       <div class="checkbox-group">
-                          <input type="checkbox" id="filter-tag" name="filter" value="tag">
+                          <input type="checkbox" id="filter-tag" name="filter-tag" value="tag">
                           <label for="filter-tag">tag</label>
                       </div>
                       <div class="checkbox-group">
-                          <input type="checkbox" id="filter-user" name="filter" value="user">
+                          <input type="checkbox" id="filter-user" name="filter-user" value="user">
                           <label for="filter-user">utilisateur</label>
                       </div>
                   </div>
@@ -489,6 +490,61 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         HTML;
         
+        return $result;
+    }
+
+    private function renderViewSearch() {
+        $data = $this->data;
+
+        $result = <<<HTML
+        <article id="content-last-post" class="content-block">
+            <h1>Résultat de votre recherche</h1>
+            <div class="block-vignette">
+        HTML;
+
+        if(isset($data['galerie'])) {
+            $router = new \mf\router\Router();
+            foreach($data['galerie'] as $g) {
+                $galleryId = $g->id;
+                $title = $g->titre;
+                $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                $link = $router->urlFor('viewGallery', array('id' => $galleryId));
+
+                $result .= <<<HTML
+                <a href="${link}">
+                    <img src="${path}" alt="${title}" />
+                    <div class="card-footer">
+                        <p>${title}</p>
+                    </div>
+                </a>
+                HTML;
+            }
+        }
+
+        if(isset($data['photo'])) {
+            $router = new \mf\router\Router();
+            foreach($data['photo'] as $p) {
+                $photoId = $p->id;
+                $title = $p->titre;
+                $path = $p->chemin;
+                $link = $router->urlFor('viewPhoto', array('id' => $photoId));
+
+                $result .= <<<HTML
+                <a href="${link}">
+                    <img src="${path}" alt="${title}" />
+                    <div class="card-footer">
+                        <p>${title}</p>
+                    </div>
+                </a>
+                HTML;
+            }
+        }
+
+        $result .= <<<HTML
+        </div>
+        </article>
+        HTML;
+
         return $result;
     }
 
