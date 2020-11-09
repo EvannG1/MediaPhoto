@@ -28,7 +28,7 @@ h1{
 form{
     width: 25%;
     margin: 0 auto;
-    margin-top: 2em;
+    margin-top: $vertical-margin;
     input{
         display: block;
         margin-top: $vertical-margin / 2;
