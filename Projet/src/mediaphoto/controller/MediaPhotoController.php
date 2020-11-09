@@ -96,4 +96,52 @@ class MediaPhotoController extends \mf\control\AbstractController {
             $router->executeRoute('home');
         }
     }
+
+    public function viewCreateGallery() {
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
+        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript('/html/assets/js/autosearch.js');
+        MediaPhotoView::addScript('/html/assets/js/conf-user.js');
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+            $vue = new \mediaphoto\view\MediaPhotoView([]);
+            $vue->render('renderViewCreateGallery');
+        } 
+    }
+
+    public function checkCreateGallery() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $router = new \mf\router\Router();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+            $post = $this->request->post;
+            if($post['submit']) {
+                $title = filter_var($post['galerie-name'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $desc = filter_var($post['galerie-desc'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $tags = filter_var($post['list-tag'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $type = filter_var($post['galerie-conf'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $users = filter_var($post['list-user'], FILTER_SANITIZE_SPECIAL_CHARS);
+    
+                if(empty($title) || empty($desc) || empty($type)) {
+                    $auth->generateMessage('create_gallery_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewCreateGallery');
+                } else {
+                    $user_id = \mediaphoto\model\User::getLoggedUserId();
+                    $id = \mediaphoto\model\Gallery::insertGetId(
+                        ['titre' => $title, 'description' => $desc, 'type' => $type, 'auteur' => $user_id]
+                    );
+                    
+                    $gallery_link = $router->urlFor('viewGallery', array('id' => $id));
+                    header('Location:' . $gallery_link);
+                    exit;
+                }
+            }   
+        }
+    }
 }

@@ -86,7 +86,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                           <label for="filter-photo">photo</label>
                       </div>
                       <div class="checkbox-group">
-                          <input type="checkbox" id="filter-galerie" name="filter-galerie" value="galerie">
+                          <input checked type="checkbox" id="filter-galerie" name="filter-galerie" value="galerie">
                           <label for="filter-galerie">galerie</label>
                       </div>
                   </div>
@@ -97,6 +97,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 if($auth->logged_in) {
                     $userId = \mediaphoto\model\User::getLoggedUserId();
                     $userGalleries = \mediaphoto\model\Gallery::getUserGalleries($userId);
+                    $link_create_gallery = $router->urlFor('viewCreateGallery');
 
                     $result .= <<<HTML
                     <!-- Début liste de vos galeries -->
@@ -108,8 +109,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
                         $galleryId = $ug->id;
                         $titre = $ug->titre;
                         $link = $router->urlFor('viewGallery', array('id' => $galleryId));
-                        $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->LIMIT(1)->first()->chemin;
                         $nbPhotos = \mediaphoto\model\Photo::where('id_galerie', '=', $galleryId)->count();
+                        $get_path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->count();
+                        if($get_path < 1) {
+                            $path = '/html/images/default.png';
+                        } else {
+                            $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                        }
 
                         $result .= <<<HTML
                         <div class="card">
@@ -127,7 +133,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                     }
                     $result .= <<<HTML
                     <div class="card-add">
-                      <a href="#" title="Créer gallerie">
+                      <a href="${link_create_gallery}" title="Créer gallerie">
                           <img src="/html/assets/img/add.svg" alt="Créer gallerie" />
                             </a>
                         </div>
@@ -499,8 +505,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
             foreach($data['galerie'] as $g) {
                 $galleryId = $g->id;
                 $title = $g->titre;
-                $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
                 $link = $router->urlFor('viewGallery', array('id' => $galleryId));
+                $get_path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->count();
+                if($get_path < 1) {
+                    $path = '/html/images/default.png';
+                } else {
+                    $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                }
 
                 $result .= <<<HTML
                 <a href="${link}">
@@ -537,6 +548,75 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </article>
         HTML;
 
+        return $result;
+    }
+
+    private function renderViewCreateGallery() {
+        $router = new \mf\router\Router();
+        $create_gallery_link = $router->urlFor('checkCreateGallery');
+        $result = '';
+
+        if(isset($_SESSION['create_gallery_error'])) {
+            $message = $_SESSION['create_gallery_error'][0];
+            $color = $_SESSION['create_gallery_error'][1];
+
+            $result .= <<<HTML
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <datalist id="_tagSearch"></datalist>
+        <h1>Créer une galerie</h1>
+        <hr style="width: 70%">
+        <form action="${create_gallery_link}" method="POST">
+            <div>
+                <label for="galerie-name">Saisir un nom pour la gallerie :</label>
+                <input type="text" placeholder="Saisir nom..." name="galerie-name" id="galerie-name">
+            </div>
+            <div>
+                <label for="galerie-desc">Description :</label>
+                <textarea name="galerie-desc" id="galerie-desc" rows="4"></textarea>
+            </div>
+            <div>
+                <label for="tag-add-textbox">Ajouter/retirer des tags :</label>
+                <div class="input-tb-submit tag-add-block">
+                    <input type="text" id="tag-add-textbox" placeholder="SAISIR TAG..." list="_tagSearch" />
+                    <input type="button" id="tag-add-btn" value="AJOUTER" />
+                    <input type="text" style="display: none;" id="input-tagList" name="list-tag" value="">
+                </div>
+                <div id="block-list-tags">
+                    <p id="p-list-tags"></p>
+                </div>
+            </div>
+            <div>
+                <label for="galerie-conf">Confidentialité galerie :</label>
+                <select id="galerie-conf" name="galerie-conf">
+                    <option value="1">Public</option>
+                    <option value="2">Privé</option>
+                    <option value="3">Partagé</option>
+                </select>
+            </div>
+            <div>
+                <label for="user-add-textbox">Ajouter/retirer des utilisateurs :</label>
+                <div class="input-tb-submit user-add-block">
+                    <input type="text" id="user-add-textbox" placeholder="SAISIR UTILISATEUR..." />
+                    <input type="button" id="user-add-btn" value="AJOUTER" />
+                    <input type="text" style="display: none;" id="input-userList" name="list-user" value="">
+                </div>
+                <div id="block-list-users">
+                    <p id="p-list-users"></p>
+                </div>
+            </div>
+            <input name="submit" id="submit" type="submit" value="Créer galerie" />
+        </form>
+        HTML;
+        
         return $result;
     }
 

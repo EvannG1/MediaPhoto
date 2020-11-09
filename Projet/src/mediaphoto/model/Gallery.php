@@ -8,7 +8,7 @@ class Gallery extends \Illuminate\Database\Eloquent\Model {
     public $timestamps = false;
 
     public function author() {
-        return $this->belongsTo('\mediaphoto\model\User', 'id');
+        return $this->belongsTo('\mediaphoto\model\User', 'auteur');
     }
 
     public function photos() {

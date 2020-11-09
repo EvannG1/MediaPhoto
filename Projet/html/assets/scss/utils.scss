@@ -87,8 +87,9 @@ hr{
     width: 100%;
   }
 
-  input[type="submit"]{
+  input[type="submit"], input[type="button"]{
     border-left: 0;
+    width: initial
   }
 }
 
