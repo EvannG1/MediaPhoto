@@ -11,6 +11,10 @@ article{
   margin: $vertical-margin auto 0 auto;
 }
 
+.block-vignette{
+  justify-content: flex-start;
+}
+
 .picture-block{
   .showing{
     position: relative;
@@ -28,16 +32,27 @@ article{
       position: absolute;
       top: calc(50% - 40px);
       left: -40px;
+      transition: transform 0.8s;
+      &:hover{
+        transform: translateX(-10px);
+      }
     }
     .right-arrow{
       position: absolute;
       top: calc(50% - 40px);
       right: -40px;
       transform: rotate(180deg);
+      transition: transform 0.8s;
+      &:hover{
+        transform: rotate(180deg) translateX(-10px);
+      }
     }
   }
 
   .in-galerie{
+    p{
+      margin-bottom: $vertical-margin / 2;
+    }
     .block-vignette{
       border: 1px dashed rgba(black, 0.1);
     }

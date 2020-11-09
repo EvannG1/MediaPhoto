@@ -102,6 +102,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
         MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
         MediaPhotoView::addScript('/html/assets/js/autosearch.js');
         MediaPhotoView::addScript('/html/assets/js/conf-user.js');
+        MediaPhotoView::addScript('/html/assets/js/block-add-user.js');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -129,19 +130,75 @@ class MediaPhotoController extends \mf\control\AbstractController {
                 $type = filter_var($post['galerie-conf'], FILTER_SANITIZE_SPECIAL_CHARS);
                 $users = filter_var($post['list-user'], FILTER_SANITIZE_SPECIAL_CHARS);
     
-                if(empty($title) || empty($desc) || empty($type)) {
+                if(empty($title) || empty($tags) || empty($desc) || empty($type)) {
                     $auth->generateMessage('create_gallery_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewCreateGallery');
                 } else {
                     $user_id = \mediaphoto\model\User::getLoggedUserId();
-                    $id = \mediaphoto\model\Gallery::insertGetId(
-                        ['titre' => $title, 'description' => $desc, 'type' => $type, 'auteur' => $user_id]
+
+                    $lastInsertId = \mediaphoto\model\Gallery::insertGetId(
+                        ['titre' => $title, 'description' => $desc, 'type' => 1, 'auteur' => $user_id]
                     );
+
+                    $tags = explode(',', $tags);
+                    $id_tags = [];
+
+                    foreach($tags as $t) {
+                        $exist = \mediaphoto\model\Tag::where('nom', '=', $t)->count();
+                        if(!$exist) {
+                            $lastInsertTagsId = \mediaphoto\model\Tag::insertGetId(
+                                ['nom' => $t]
+                            );
+                            $id_tags[] = $lastInsertTagsId;
+                        } else {
+                            $id_tags[] = \mediaphoto\model\Tag::select('id')->where('nom', '=', $t)->first()->id;
+                        }
+                    }
+
+                    foreach($id_tags as $t) {
+                        $exist = \mediaphoto\model\TagGallery::select('id_tag')->where('id_tag', '=', $t)->count();
+                        if(!$exist) {
+                            \mediaphoto\model\TagGallery::insert(
+                                ['id_tag' => $t, 'id_galerie' => $lastInsertId]
+                            );
+                        }
+                    }
+
+                    if(empty($users) && $type == 3) {
+                        $auth->generateMessage('create_gallery_error', array('Veuillez partager votre galerie à au moins un utilisateur.', 'red'), 'viewCreateGallery');
+                    }
+
+                    if(!empty($users)) {
+                        $users = explode(',', $users);
+                        $id_users = [];
+
+                        foreach($users as $u) {
+                            $exist = \mediaphoto\model\User::where('nom', '=', $u)->count();
+                            if(!$exist) {
+                                $auth->generateMessage('create_gallery_error', array('L\'utilisateur que vous avez spécifié n\'existe pas.', 'red'), 'viewCreateGallery');
+                            } else {
+                                $id_users[] = \mediaphoto\model\User::select('id')->where('nom', '=', $u)->first()->id;
+                            }
+                        }
+
+                        foreach($id_users as $u) {
+                            $exist = \mediaphoto\model\Share::select('id_utilisateur')->where('id_utilisateur', '=', $u)->count();
+                            if(!$exist) {
+                                \mediaphoto\model\Share::insert(
+                                    ['id_utilisateur' => $u, 'id_galerie' => $lastInsertId]
+                                );
+                            }
+                        }
+                    }
+
+                    \mediaphoto\model\Gallery::where('id', '=', $lastInsertId)->update(['type' => $type]);
                     
-                    $gallery_link = $router->urlFor('viewGallery', array('id' => $id));
-                    header('Location:' . $gallery_link);
+                    header('Location:' . $router->urlFor('viewGallery', array('id' => $lastInsertId)));
                     exit;
                 }
-            }   
+            } else {
+                header('Location:' . $router->urlFor('viewCreateGallery'));
+                exit;
+            }  
         }
     }
 }

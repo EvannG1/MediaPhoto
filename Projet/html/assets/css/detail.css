@@ -68,6 +68,10 @@ article {
   margin: 60px auto 0 auto;
 }
 
+.block-vignette {
+  justify-content: flex-start;
+}
+
 .picture-block .showing {
   position: relative;
   width: 80%;
@@ -86,12 +90,23 @@ article {
   position: absolute;
   top: calc(50% - 40px);
   left: -40px;
+  transition: transform 0.8s;
+}
+.picture-block .showing .left-arrow:hover {
+  transform: translateX(-10px);
 }
 .picture-block .showing .right-arrow {
   position: absolute;
   top: calc(50% - 40px);
   right: -40px;
   transform: rotate(180deg);
+  transition: transform 0.8s;
+}
+.picture-block .showing .right-arrow:hover {
+  transform: rotate(180deg) translateX(-10px);
+}
+.picture-block .in-galerie p {
+  margin-bottom: 30px;
 }
 .picture-block .in-galerie .block-vignette {
   border: 1px dashed rgba(0, 0, 0, 0.1);

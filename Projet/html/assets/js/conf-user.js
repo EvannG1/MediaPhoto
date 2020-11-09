@@ -18,7 +18,16 @@ $(document).ready(function() {
           elemC.innerHTML = name;
           $(elemC).on("click", confUser.modules.handlerconfUser.deleteUserFromList);
           document.getElementById('p-list-users').append(elemC);
-          document.getElementById('input-userList').value = JSON.stringify(listUser);
+          let strUser = null;
+          listUser.forEach(elem => {
+            if(!strUser){
+              strUser = elem;
+            }
+            else{
+              strUser += ',' + elem;
+            }
+          });
+          document.getElementById('input-userList').value = strUser;
         }
         else
         {
@@ -36,7 +45,16 @@ $(document).ready(function() {
         });
         document.getElementById('p-list-users').innerHTML = chn;
         confUser.modules.handlerconfUser.addEventClickForListUser();
-        document.getElementById('input-userList').value = JSON.stringify(listUser);
+        let strUser = null;
+        listUser.forEach(elem => {
+          if(!strUser){
+            strUser = elem;
+          }
+          else{
+            strUser += ',' + elem;
+          }
+        });
+        document.getElementById('input-userList').value = strUser;
       },
       addEventClickForListUser()
       {

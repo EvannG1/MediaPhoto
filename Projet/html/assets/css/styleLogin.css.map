@@ -1,5 +1,1 @@
-<<<<<<< HEAD
 {"version":3,"sourceRoot":"","sources":["../scss/styleLogin.scss","../scss/_vars.scss"],"names":[],"mappings":"AAEA;EACE,aCDiB;;;ADInB;EACE,aCNkB;EDOlB;EACA;;;AAGF;EACI,eCPc;EDQd;;;AAGJ;EACE,OCVc;EDWd;EACA;;;AAGF;EACE;EACA,YCnBgB;;;ADsBlB;EACI;EACA;EACA;;AACA;EACI;EACA;EACA;EACA;;;AAIR;EACE;;;AAGF;EACE;EACA;EACA;;AACA;EACE;EACA;EACA;EACA;EACA;;AAEA;EACE;;;AAKN;EACE,YCxDgB;;;AD2DlB;EACE;EACA;;AACA;EACE;EACA;EACA;;AAGF;EAEE;EACD;EACC;EACA;EACA;EACA;EACA;EACA;;AAEA;EACE;EACA;EACA;EACA;EACA;;AAIJ;EAEC;EACA","file":"styleLogin.css"}
-=======
-{"version":3,"sourceRoot":"","sources":["../scss/styleLogin.scss","../scss/_vars.scss"],"names":[],"mappings":"AAEA;EACE,aCDiB;;;ADInB;EACE,aCNkB;EDOlB;EACA;;;AAGF;EACE,OCLc;EDMd;EACA;;;AAGF;EACE;EACA,YCdgB;;;ADiBlB;EACE;;;AAGF;EACI;EACA;EACA,YCxBc;;ADyBd;EACI;EACA;EACA;EACA;;;AAIR;EACI,eClCc;EDmCd","file":"styleLogin.css"}
->>>>>>> 43d8b0373291b035eaecefd4bd7d1034280ac61f

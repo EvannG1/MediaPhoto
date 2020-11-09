@@ -22,6 +22,7 @@ textarea {
   padding: 10px;
   border: 1px solid #16A085;
   box-sizing: border-box;
+  width: 100%;
 }
 textarea::placeholder {
   color: rgba(22, 160, 133, 0.5);
@@ -156,6 +157,7 @@ textarea {
   padding: 10px;
   border: 1px solid #16A085;
   box-sizing: border-box;
+  width: 100%;
 }
 textarea::placeholder {
   color: rgba(22, 160, 133, 0.5);
@@ -300,8 +302,9 @@ hr {
 .input-tb-submit input[type=text] {
   width: 100%;
 }
-.input-tb-submit input[type=submit] {
+.input-tb-submit input[type=submit], .input-tb-submit input[type=button] {
   border-left: 0;
+  width: initial;
 }
 
 .block-search {
@@ -335,7 +338,7 @@ hr {
 }
 .block-search .form-select-filter {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
@@ -480,13 +483,13 @@ hr {
   font-family: "Marvel", sans-serif;
 }
 
-.ok {
+.alert-green {
   color: #155724;
   background-color: #d4edda;
   border-color: #c3e6cb;
 }
 
-.not-ok {
+.alert-red {
   color: #721c24;
   background-color: #f8d7da;
   border-color: #f5c6cb;

@@ -191,28 +191,8 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
-        <article class="block-search">
+        <article class="block-title-page">
             <h1>Galerie <strong><u>${title}</u></strong></h1>
-            <form class="form-search" action="" method="POST">
-                <div class="input-tb-submit">
-                    <input type="text" name="search" placeholder="Rechercher dans la galerie...">
-                    <input type="submit" value="OK">
-                </div>
-                <div class="form-select-filter">
-                    <div class="checkbox-group">
-                        <input checked type="checkbox" id="filter-image" name="filter" value="image">
-                        <label for="filter-image">image</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="filter-tag" name="filter" value="tag">
-                        <label for="filter-tag">tag</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="filter-user" name="filter" value="user">
-                        <label for="filter-user">utilisateur</label>
-                    </div>
-                </div>
-            </form>
         </article>
         <article>
             <h3>Description :</h3>
@@ -227,7 +207,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $get_share = $gallery->partage()->get();
             $share = [];
             foreach($get_share as $s) {
-                $share[] = $gallery->getShareUsername($s->id)->nom_complet;
+                $share[] = $gallery->getShareUsername($s->id_utilisateur)->nom_complet;
             }
             $share = implode(', ', $share);
 
@@ -602,7 +582,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                     <option value="3">Partagé</option>
                 </select>
             </div>
-            <div>
+            <div id="block-add-user" style="display: none;">
                 <label for="user-add-textbox">Ajouter/retirer des utilisateurs :</label>
                 <div class="input-tb-submit user-add-block">
                     <input type="text" id="user-add-textbox" placeholder="SAISIR UTILISATEUR..." />
