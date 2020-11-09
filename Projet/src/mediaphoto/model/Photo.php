@@ -21,4 +21,28 @@ class Photo extends \Illuminate\Database\Eloquent\Model {
             ['id', '!=', $id]
         ])->orderByDesc('id')->limit($nb)->get();
     }
+
+    public function getNextPhoto($id_galerie, $current_id) {
+        $next = $this::select('id')->where([
+            ['id_galerie', '=', $id_galerie],
+            ['id', '>', $current_id]
+        ])->first();
+        if($next) {
+            return $next;
+        } else {
+            return false;
+        }
+    }
+
+    public function getPreviousPhoto($id_galerie, $current_id) {
+        $previous = $this::select('id')->where([
+            ['id_galerie', '=', $id_galerie],
+            ['id', '<', $current_id]
+        ])->orderByDesc('id')->first();
+        if($previous) {
+            return $previous;
+        } else {
+            return false;
+        }
+    }
 }

@@ -251,12 +251,40 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $gallery = $photo->gallery()->first()->titre;
         $gallery_id = $photo->id_galerie;
         $get_photos = $photo->getGalleryPhoto($gallery_id, $id, 4);
+        $gallery_link = $router->urlFor('viewGallery', array('id' => $gallery_id));
+
+        $next_photo_id = $photo->getNextPhoto($gallery_id, $id);
+        if($next_photo_id != false) {
+            $next_photo_link = $router->urlFor('viewPhoto', array('id' => $next_photo_id->id));
+        } else {
+            $next_photo_link = false;
+        }
+
+        $previous_photo_id = $photo->getPreviousPhoto($gallery_id, $id);
+        if($previous_photo_id != false) {
+            $previous_photo_link = $router->urlFor('viewPhoto', array('id' => $previous_photo_id->id));
+        } else {
+            $previous_photo_link = false;
+        }
 
         $result = <<<HTML
-        <center>
-            <h1>${title}</h1>
-            <img src="${path}" alt="${title}">
-            <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
+        <article class="content-block">
+        <h1>${title}</h1>
+        <div class="picture-block">
+        <div class="showing" id="My-lightbox-gallery">
+          <div class="vignette solo">
+          <img class="pic" data-img="${path}" data-id="${id}" src="${path}" alt="${title}">
+          </div>
+          <a href="${previous_photo_link}">
+            <img class="left-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher précédent">
+          </a>
+          <a href="${next_photo_link}">
+            <img class="right-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher suivant">
+          </a>
+        </div>
+        <div class="in-galerie">
+        <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
+        <div class="block-vignette">
         HTML;
         
         foreach($get_photos as $p) {
@@ -265,21 +293,34 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $img_link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
+            <a href="${img_link}">
+            <img src="${img_path}" alt="${img_title}">
+            <div class="card-footer">
             <p>${img_title}</p>
-            <a href="${img_link}"><img src="${img_path}" alt="${img_title}" width="10%"></a>
+            </div>
+            </a>
             HTML;
         }
 
         $result .= <<<HTML
-        <hr>
-        <div>
-            <p>Publiée par : ${author}</p>
-            <p>Appartenant à la galerie : ${gallery}</p>
-            <p>Taille de l'image : ${size}</p>
-            <p>Qualité : ${quality}</p>
-            <p>Type : ${type}</p>
         </div>
-        </center>
+        </div>
+        <hr style="width: 50%;">
+        <div class="more-info-block">
+            <h3>A propos de l'image :</h3>
+            <p>
+            Publiée par : <a href="">${author}</a><br>
+            <br>
+            Appartenant à la galerie : <a href="${gallery_link}">${gallery}</a><br>
+            <br>
+            Taille de l'image : ${size}<br>
+            <br>
+            Qualité : ${quality}<br>
+            <br>
+            Type : ${type}
+            </p>
+        </div>
+        </article>
         HTML;
 
         return $result;
