@@ -78,12 +78,6 @@ class MediaPhotoController extends \mf\control\AbstractController {
             if(isset($this->request->post['filter-galerie'])) {
                 $filter[] = $this->request->post['filter-galerie'];
             }
-            if(isset($this->request->post['filter-tag'])) {
-                $filter[] = $this->request->post['filter-tag'];
-            }
-            if(isset($this->request->post['filter-user'])) {
-                $filter[] = $this->request->post['filter-user'];
-            }
 
             foreach($filter as $f) {
                 // Si premier tour de boucle

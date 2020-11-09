@@ -89,14 +89,6 @@ class MediaPhotoView extends \mf\view\AbstractView {
                           <input type="checkbox" id="filter-galerie" name="filter-galerie" value="galerie">
                           <label for="filter-galerie">galerie</label>
                       </div>
-                      <div class="checkbox-group">
-                          <input type="checkbox" id="filter-tag" name="filter-tag" value="tag">
-                          <label for="filter-tag">tag</label>
-                      </div>
-                      <div class="checkbox-group">
-                          <input type="checkbox" id="filter-user" name="filter-user" value="user">
-                          <label for="filter-user">utilisateur</label>
-                      </div>
                   </div>
               </form>
           </article>
