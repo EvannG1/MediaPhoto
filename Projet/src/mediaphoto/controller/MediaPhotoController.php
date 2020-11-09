@@ -18,6 +18,9 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewGallery() {
+        MediaPhotoView::addStyleSheet('/html/assets/css/galerie.css');
+        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript('/html/assets/js/vignette.js');
         if(!isset($this->request->get['id'])) {
             $router = new \mf\router\Router();
             header('Location:' . $router->urlFor('home'));

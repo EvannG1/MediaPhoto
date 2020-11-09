@@ -184,6 +184,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $router = new \mf\router\Router();
 
         $gallery = $this->data;
+        $id = $gallery->id;
         $title = $gallery->titre;
         $desc = $gallery->description;
         $type = $gallery->type;
@@ -191,14 +192,36 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
-        <center>
-        <h1>Galerie : ${title}</h1>
-        <div>
-            <p>Description : ${desc}</p>
-        </div>
-        <hr>
-        <p>Créé par : ${author}</p>
-        <p>Taille totale de la galerie : ${size}</p>
+        <article class="block-search">
+            <h1>Galerie <strong><u>${title}</u></strong></h1>
+            <form class="form-search" action="" method="POST">
+                <div class="input-tb-submit">
+                    <input type="text" name="search" placeholder="Rechercher dans la galerie...">
+                    <input type="submit" value="OK">
+                </div>
+                <div class="form-select-filter">
+                    <div class="checkbox-group">
+                        <input checked type="checkbox" id="filter-image" name="filter" value="image">
+                        <label for="filter-image">image</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filter-tag" name="filter" value="tag">
+                        <label for="filter-tag">tag</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="filter-user" name="filter" value="user">
+                        <label for="filter-user">utilisateur</label>
+                    </div>
+                </div>
+            </form>
+        </article>
+        <article>
+            <h3>Description :</h3>
+            <p>${desc}</p>
+            <hr style="width: 50%;">
+            <h3>A propos de la galerie :</h3>
+            <p>Créé par : <a href="#">${author}</a></p>
+            <p>Taille totale de la galerie : ${size}</p>
         HTML;
         
         if($type == 3) {
@@ -210,14 +233,16 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $share = implode(', ', $share);
 
             $result .= <<<HTML
-            <p>Partagé avec : ${share}</p>
+            <p>Membre de la galerie : ${share}</p>
             HTML;
         }
 
         $result .= <<<HTML
-        <hr>
-        <h1>Dernière publications</h1>
-        </center>
+        </article>
+        <hr style="width: 50%;">
+        <article id="content-most-commented" class="content-block">
+            <h1>Dernière publications</h1>
+            <div class="block-vignette">
         HTML;
 
         $photos = $gallery->photos()->get();
@@ -228,10 +253,23 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
-            <p>${title}</p>
-            <a href="${link}"><img src="${path}" alt="${title}"></a>
+            <a href="${link}">
+                <img src="${path}" alt="${title}">
+                <div class="card-footer">
+                    <p>${title}</p>
+                </div>
+            </a>
             HTML;
         }
+
+        $result .= <<<HTML
+        </div>
+        <button class="btn-show-more" data-id-galerie="${id}" data-nb-increment="15" data-actual-offset="15">
+            VOIR PLUS
+            <img src="/html/assets/img/right_arrow.svg" alt="Voir plus">
+        </button>
+        </article>
+        HTML;
 
         return $result;
     }
