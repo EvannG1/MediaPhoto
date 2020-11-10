@@ -12,6 +12,10 @@ URL SITE HEBERGE : http://mediaphoto.ezcorp.fr/
 Le site n'est pas hébergé sur Webetu : lors du développement de MediaPhoto, nous avons utilisé de la syntaxe Heredoc (et autre) compatible >= PHP 7.3. Or Webetu est en PHP 7.0, il y a alors beaucoup d'erreurs de syntaxe.
 Le site est hébergé sur un serveur web Apache2 et PHP 7.3.
 
+Compte utilisateur avec galeries/photos :
+Nom d'utilisateur : lucaas885
+Mot de passe : azerty12
+
 Liste des fonctionnalités invité :
 - Connexion/Inscription
 - Liste des galeries
