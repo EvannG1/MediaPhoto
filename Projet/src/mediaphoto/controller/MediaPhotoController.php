@@ -279,7 +279,10 @@ class MediaPhotoController extends \mf\control\AbstractController {
                     }
 
                     if($uploadOk == 1) {
-                        var_dump($target_file);
+                        // var_dump($target_file);
+                        // echo '<br>';
+                        // var_dump($_FILES["image-upload"]["tmp_name"]);
+                        // die;
                         if(move_uploaded_file($_FILES["image-upload"]["tmp_name"], $target_file)) {
                             $tags = explode(',', $tags);
                             $id_tags = [];
@@ -303,7 +306,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
                             }
 
                             $lastInsertId = \mediaphoto\model\Photo::insertGetId(
-                                ['titre' => $title, 'chemin' => \mediaphoto\view\MediaPhotoView::$app_url . '/html/images/' . $_FILES["image-upload"]["name"], 'id_utilisateur' => $user_id,
+                                ['titre' => $title, 'chemin' => '/html/images/' . $_FILES["image-upload"]["name"], 'id_utilisateur' => $user_id,
                                  'id_galerie' => $selected_gallery, 'qualite' => 'HD', 'type' => $imageFileType, 'taille' => $imageSize]
                             );
                             \mediaphoto\model\TagPhoto::where('id_photo', '=', 0)->update(['id_photo' => $lastInsertId]);
