@@ -43,6 +43,10 @@ $router->addRoute('checkSearch', '/check_search/', '\mediaphoto\controller\Media
 $router->addRoute('viewCreateGallery', '/create_gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewCreateGallery', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
 $router->addRoute('checkCreateGallery', '/check_create_gallery/', '\mediaphoto\controller\MediaPhotoController', 'checkCreateGallery', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
 
+// Routes de publication d'une photo
+$router->addRoute('viewPostPhoto', '/post_photo/', '\mediaphoto\controller\MediaPhotoController', 'viewPostPhoto', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
+$router->addRoute('checkPostPhoto', '/check_post_photo/', '\mediaphoto\controller\MediaPhotoController', 'checkPostPhoto', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
+
 // Routes modification de mot de passe
 $router->addRoute('viewPassword', '/password/', '\mediaphoto\controller\MediaPhotoAuthController', 'changePassword', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
 $router->addRoute('checkPassword', '/check_password/', '\mediaphoto\controller\MediaPhotoAuthController', 'checkChangePassword', MediaPhotoAuthentification::ACCESS_LEVEL_USER);

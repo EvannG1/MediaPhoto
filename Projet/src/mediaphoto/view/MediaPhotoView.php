@@ -16,6 +16,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $signup = $router->urlFor('viewSignup');
         $logout = $router->urlFor('viewLogout');
         $password = $router->urlFor('viewPassword');
+        $post_photo_link = $router->urlFor('viewPostPhoto');
 
         if(!$auth->logged_in) {
             $result = <<<HTML
@@ -40,7 +41,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $result = <<<HTML
             <nav>
                 <div class="nav-link">
-                    <a href="#">Poster une photo</a>
+                    <a href="${post_photo_link}">Poster une photo</a>
                     <a href="#">Mes photos</a>
                 </div>
                 <a href="${home}">
@@ -597,6 +598,74 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </form>
         HTML;
         
+        return $result;
+    }
+
+    private function renderViewPostPhoto() {
+        $router = new \mf\router\Router();
+        $gallery = $this->data;
+        $check_post_photo_link = $router->urlFor('checkPostPhoto');
+        $result = '';
+
+        if(isset($_SESSION['post_photo_error'])) {
+            $message = $_SESSION['post_photo_error'][0];
+            $color = $_SESSION['post_photo_error'][1];
+
+            $result .= <<<HTML
+            <article>
+                <div class="alert alert-${color}" role="alert">
+                    <h3>Attention !</h3>
+                    <p>${message}</p>
+                </div>
+            </article>
+            HTML;
+        }
+
+        $result .= <<<HTML
+        <datalist id="_tagSearch"></datalist>
+        <h1>Poster une photo</h1>
+        <hr style="width: 70%">
+        <form action="${check_post_photo_link}" method="POST" enctype="multipart/form-data">
+            <div class="block-parcourir-img">
+                <label for="image-upload">Parcourir une image :</label>
+                <input style="display: none;" type="file" id="image-upload" name="image-upload"
+                    accept="image/png, image/jpeg, image/jpg">
+                <img src="/html/assets/img/add.svg" alt="Parcourir" />
+            </div>
+            <div>
+                <label for="galerie-name">Saisir un nom pour la photo :</label>
+                <input type="text" placeholder="Saisir nom..." name="galerie-name" id="galerie-name">
+            </div>
+            <div>
+                <label for="tag-add-textbox">Ajouter/retirer des tags :</label>
+                <div class="input-tb-submit tag-add-block">
+                    <input type="text" id="tag-add-textbox" placeholder="SAISIR TAG..." list="_tagSearch" />
+                    <input type="button" id="tag-add-btn" value="AJOUTER" />
+                    <input type="text" style="display: none;" id="input-tagList" name="list-tag" value="">
+                </div>
+                <div id="block-list-tags">
+                    <p id="p-list-tags"></p>
+                </div>
+            </div>
+            <div>
+            <label for="galerie-conf">Sélectionner une galerie :</label>
+            <select id="galerie-conf" name="galerie-conf">
+        HTML;
+        foreach($gallery as $g) {
+            $id = $g->id;
+            $title = $g->titre;
+
+            $result .= <<<HTML
+            <option value="${id}">${title}</option>
+        HTML;
+        }
+        $result .= <<<HTML
+        </select>
+        </div>
+        <input name="submit" id="submit" type="submit" value="publier la photo" />
+        </form>
+        HTML;
+
         return $result;
     }
 

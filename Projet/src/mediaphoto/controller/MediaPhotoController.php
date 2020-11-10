@@ -123,7 +123,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
             exit;
         } else {
             $post = $this->request->post;
-            if($post['submit']) {
+            if(isset($post['submit'])) {
                 $title = filter_var($post['galerie-name'], FILTER_SANITIZE_SPECIAL_CHARS);
                 $desc = filter_var($post['galerie-desc'], FILTER_SANITIZE_SPECIAL_CHARS);
                 $tags = filter_var($post['list-tag'], FILTER_SANITIZE_SPECIAL_CHARS);
@@ -193,6 +193,57 @@ class MediaPhotoController extends \mf\control\AbstractController {
                 header('Location:' . $router->urlFor('viewCreateGallery'));
                 exit;
             }  
+        }
+    }
+
+    public function viewPostPhoto() {
+        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
+        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript('/html/assets/js/autosearch.js');
+        MediaPhotoView::addScript('/html/assets/js/block-browse-img.js');
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+            $galleries = \mediaphoto\model\Gallery::select()->get();
+            $vue = new \mediaphoto\view\MediaPhotoView($galleries);
+            $vue->render('renderViewPostPhoto');
+        }
+    }
+
+    public function checkPostPhoto() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $router = new \mf\router\Router();
+        if(!$auth->logged_in) {
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+            $post = $this->request->post;
+            if(isset($post['submit'])) {
+                $title = filter_var($post['galerie-name'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $tags = filter_var($post['list-tag'], FILTER_SANITIZE_SPECIAL_CHARS);
+                $selected_gallery = filter_var($post['galerie-conf'], FILTER_SANITIZE_SPECIAL_CHARS);
+
+                if(empty($title) || empty($tags) || empty($selected_gallery)) {
+                    $auth->generateMessage('post_photo_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewPostPhoto');
+                } else {
+                    $target_dir = "/html/images/";
+                    $target_file = $target_dir . basename($_FILES["image-upload"]["name"]);
+                    $uploadOk = 1;
+                    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+                    $check = getimagesize($_FILES["image-upload"]["tmp_name"]);
+                    if($check !== false) {
+                        var_dump($check);
+                        die;
+                    }
+                }
+            } else {
+                header('Location:' . $router->urlFor('viewPostPhoto'));
+                exit;
+            }
         }
     }
 }
