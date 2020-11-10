@@ -37,7 +37,7 @@ if($res){
 
   while($ligne = $requete_prep->fetch(PDO::FETCH_OBJ)){
     $html .= <<< EOT
-    <a href="../../main.php/photo/?id=$ligne->id">
+    <a href="../../index.php/photo/?id=$ligne->id">
       <img src="../..$ligne->chemin" alt="$ligne->titre"/>
       <div class="card-footer">
         <p>$ligne->titre</p>
