@@ -86,11 +86,23 @@ article {
   width: 80px;
   height: 80px;
 }
+@media screen and (max-width: 1000px) {
+  .picture-block .showing .left-arrow, .picture-block .showing .right-arrow {
+    width: 50px;
+    height: 50px;
+  }
+}
 .picture-block .showing .left-arrow {
   position: absolute;
   top: calc(50% - 40px);
   left: -40px;
   transition: transform 0.8s;
+}
+@media screen and (max-width: 1000px) {
+  .picture-block .showing .left-arrow {
+    top: calc(50% - 25px);
+    left: -25px;
+  }
 }
 .picture-block .showing .left-arrow:hover {
   transform: translateX(-10px);
@@ -101,6 +113,12 @@ article {
   right: -40px;
   transform: rotate(180deg);
   transition: transform 0.8s;
+}
+@media screen and (max-width: 1000px) {
+  .picture-block .showing .right-arrow {
+    top: calc(50% - 25px);
+    right: -25px;
+  }
 }
 .picture-block .showing .right-arrow:hover {
   transform: rotate(180deg) translateX(-10px);

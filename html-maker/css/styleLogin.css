@@ -29,6 +29,11 @@ form {
   margin: 0 auto;
   margin-top: 2em;
 }
+@media screen and (max-width: 1000px) {
+  form {
+    width: 44%;
+  }
+}
 form input, form textarea, form select {
   display: block;
   margin-top: 30px;

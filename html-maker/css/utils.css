@@ -8,6 +8,11 @@ header nav {
   padding: 0 50px;
   font-family: "Lato", sans-serif;
 }
+@media screen and (max-width: 919px) {
+  header nav {
+    padding: 0;
+  }
+}
 header nav a {
   text-decoration: none;
   color: black;
@@ -19,8 +24,27 @@ header nav .nav-link {
   flex-wrap: nowrap;
 }
 header nav .nav-link > a {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
   margin-right: 20px;
   text-transform: uppercase;
+}
+@media screen and (max-width: 1000px) {
+  header nav .nav-link > a p {
+    display: none;
+  }
+}
+header nav .nav-link > a img {
+  margin-left: 1.5em;
+  margin-right: 10px;
+  transition: transform 0.5s;
+  width: 1.75em;
+  height: 1.75em;
+}
+header nav .nav-link > a:hover > img {
+  transform: scale(0.9);
 }
 header nav .logo {
   height: 40px;
@@ -37,6 +61,11 @@ header nav .nav-setting a {
   align-items: center;
   flex-wrap: nowrap;
   margin-right: 20px;
+}
+@media screen and (max-width: 919px) {
+  header nav .nav-setting a > p {
+    display: none;
+  }
 }
 header nav .nav-setting a > img {
   margin-right: 10px;
