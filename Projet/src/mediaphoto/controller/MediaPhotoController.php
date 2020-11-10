@@ -235,7 +235,8 @@ class MediaPhotoController extends \mf\control\AbstractController {
             header('Location:' . $router->urlFor('home'));
             exit;
         } else {
-            $galleries = \mediaphoto\model\Gallery::select()->get();
+            $author = \mediaphoto\model\User::getLoggedUserId();
+            $galleries = \mediaphoto\model\Gallery::select()->where('auteur', '=', $author)->get();
             $vue = new \mediaphoto\view\MediaPhotoView($galleries);
             $vue->render('renderViewPostPhoto');
         }
@@ -279,10 +280,6 @@ class MediaPhotoController extends \mf\control\AbstractController {
                     }
 
                     if($uploadOk == 1) {
-                        // var_dump($target_file);
-                        // echo '<br>';
-                        // var_dump($_FILES["image-upload"]["tmp_name"]);
-                        // die;
                         if(move_uploaded_file($_FILES["image-upload"]["tmp_name"], $target_file)) {
                             $tags = explode(',', $tags);
                             $id_tags = [];
