@@ -13,7 +13,7 @@ Le site n'est pas hébergé sur Webetu : lors du développement de MediaPhoto, n
 Le site est hébergé sur un serveur web Apache2 et PHP 7.3.
 
 Compte utilisateur avec galeries/photos :
-Nom d'utilisateur : lucaas885
+Nom d'utilisateur : lucaas855
 Mot de passe : azerty12
 
 Liste des fonctionnalités invité :
