@@ -13,7 +13,7 @@ use mediaphoto\view\MediaPhotoView;
 use mediaphoto\auth\MediaPhotoAuthentification;
 
 // URL du site
-MediaPhotoView::setAppUrl('http://localhost:8000/Projet');
+MediaPhotoView::setAppUrl('http://localhost:8000');
 // Titre de la page
 MediaPhotoView::setAppTitle('MediaPhoto');
 

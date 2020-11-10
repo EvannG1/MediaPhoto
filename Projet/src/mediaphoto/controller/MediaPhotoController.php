@@ -183,6 +183,34 @@ class MediaPhotoController extends \mf\control\AbstractController {
                             );
                             \mediaphoto\model\TagGallery::where('id_galerie', '=', 0)->update(['id_galerie' => $lastInsertId]);
                             \mediaphoto\model\Share::where('id_galerie', '=', 0)->update(['id_galerie' => $lastInsertId]);
+                        
+        
+                            header('Location:' . $router->urlFor('viewGallery', array('id' => $lastInsertId)));
+                            exit;
+                        } else {
+                            foreach($tags as $t) {
+                                $exist = \mediaphoto\model\Tag::where('nom', '=', $t)->count();
+                                if(!$exist) {
+                                    $lastInsertTagsId = \mediaphoto\model\Tag::insertGetId(
+                                        ['nom' => $t]
+                                    );
+                                    $id_tags[] = $lastInsertTagsId;
+                                } else {
+                                    $id_tags[] = \mediaphoto\model\Tag::select('id')->where('nom', '=', $t)->first()->id;
+                                }
+                            }
+        
+                            foreach($id_tags as $t) {
+                                \mediaphoto\model\TagGallery::insert(
+                                    ['id_tag' => $t, 'id_galerie' => 0]
+                                );
+                            }
+    
+                            $lastInsertId = \mediaphoto\model\Gallery::insertGetId(
+                                ['titre' => $title, 'description' => $desc, 'type' => $type, 'auteur' => $user_id]
+                            );
+                            \mediaphoto\model\TagGallery::where('id_galerie', '=', 0)->update(['id_galerie' => $lastInsertId]);
+                        
         
                             header('Location:' . $router->urlFor('viewGallery', array('id' => $lastInsertId)));
                             exit;
@@ -230,7 +258,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
                 if($_FILES['image-upload']['size'] == 0 || empty($title) || empty($tags) || empty($selected_gallery)) {
                     $auth->generateMessage('post_photo_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewPostPhoto');
                 } else {
-                    $target_dir = $this->request->root . \mediaphoto\view\MediaPhotoView::$app_url . '/html/images/';
+                    $target_dir = $this->request->root . '/html/images/';
                     $target_file = $target_dir . basename($_FILES["image-upload"]["name"]);
                     $uploadOk = 1;
                     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -251,6 +279,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
                     }
 
                     if($uploadOk == 1) {
+                        var_dump($target_file);
                         if(move_uploaded_file($_FILES["image-upload"]["tmp_name"], $target_file)) {
                             $tags = explode(',', $tags);
                             $id_tags = [];
