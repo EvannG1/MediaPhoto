@@ -8,6 +8,10 @@ header nav{
   padding: 0 50px;
   font-family: $nav-font-family;
 
+  @media screen and (max-width: 919px){
+    padding: 0;
+  }
+
   a{
     text-decoration: none;
     color: black;
@@ -20,8 +24,29 @@ header nav{
     flex-wrap: nowrap;
 
     & > a{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: nowrap;
       margin-right: 20px;
       text-transform: uppercase;
+
+      p{
+        @media screen and (max-width: 1000px){
+          display: none;
+        }
+      }
+
+      img{
+        margin-left: 1.5em;
+        margin-right: 10px;
+        transition: transform 0.5s;
+        width: 1.75em;
+        height: 1.75em;
+      }
+      &:hover > img{
+        transform: scale(0.9);
+    }
     }
   }
   .logo{
@@ -39,6 +64,12 @@ header nav{
       align-items: center;
       flex-wrap: nowrap;
       margin-right: 20px;
+
+      & > p{
+        @media screen and (max-width: 919px){
+          display: none;
+        }
+      }
 
       & > img{
         margin-right: 10px;

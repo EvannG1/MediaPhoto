@@ -287,3 +287,21 @@ hr{
   background-color: #f8d7da;
   border-color: #f5c6cb;
 }
+
+.block-title-page{
+  background-color: rgba($primary-color, 0.1);
+  padding: 90px 0;
+  text-align: center;
+
+  h1{
+    color: black;
+    text-transform: uppercase;
+    letter-spacing: 5.4px;
+    font-weight: 300;
+    margin: 0;
+    & strong{
+      color: rgba($primary-color, 0.5);
+      font-style: normal;
+    }
+  }
+}

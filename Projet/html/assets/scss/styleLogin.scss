@@ -28,6 +28,9 @@ h1{
 
 form{
     width: 25%;
+    @media screen and (max-width: 1000px){
+      width:44%;
+    }
     margin: 0 auto;
     margin-top: 2em;
     input, textarea, select{

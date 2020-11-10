@@ -43,8 +43,14 @@ class MediaPhotoView extends \mf\view\AbstractView {
             $result = <<<HTML
             <nav>
                 <div class="nav-link">
-                    <a href="${post_photo_link}">Poster une photo</a>
-                    <a href="${my_photo_link}">Mes photos</a>
+                  <a href="${post_photo_link}">
+                    <img src="${app_url}/html/assets/img/add-image.png" alt="Poster photo">
+                    <p>POSTER UNE PHOTO</p>
+                  </a>
+                  <a href="${my_photo_link}">
+                    <img src="${app_url}/html/assets/img/stack-image.png" alt="Mes photos">
+                    <p>Mes photos</p>
+                  </a>
                 </div>
                 <a href="${home}">
                     <img class="logo" src="${app_url}/html/assets/img/logo.png" alt="MediaPhoto" />
@@ -146,7 +152,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 <!-- Fin liste de vos galeries -->
                 HTML;
                 }
-                
+
         $result .= <<<HTML
         <article id="content-last-post" class="content-block">
             <h1>Dernières publications</h1>
@@ -190,7 +196,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $type = $gallery->type;
         $size = $gallery->taille . ' Ko';
         $author = $gallery->author()->first()->nom_complet;
-        
+
         $result = <<<HTML
         <article class="block-title-page">
             <h1>Galerie <strong><u>${title}</u></strong></h1>
@@ -203,7 +209,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             <p>Créé par : <a href="#">${author}</a></p>
             <p>Taille totale de la galerie : ${size}</p>
         HTML;
-        
+
         if($type == 3) {
             $get_share = $gallery->partage()->get();
             $share = [];
@@ -305,7 +311,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         <p>Cette photo fait partie de la galerie "${gallery}", voir les autres photos de cette galerie ci-dessous :</p>
         <div class="block-vignette">
         HTML;
-        
+
         foreach($get_photos as $p) {
             $img_title = $p->titre;
             $img_path = self::$app_url . $p->chemin;
@@ -469,7 +475,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             </form>
         </div>
         HTML;
-        
+
         return $result;
     }
 
@@ -598,7 +604,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             <input name="submit" id="submit" type="submit" value="Créer galerie" />
         </form>
         HTML;
-        
+
         return $result;
     }
 
@@ -719,7 +725,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
           </div>
         </footer>
         HTML;
-        
+
       return $result;
     }
 

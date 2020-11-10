@@ -1,3 +1,91 @@
+@import "https://necolas.github.io/normalize.css/8.0.1/normalize.css";
+input[type=text], input[type=password], input[type=number] {
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  color: black;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #16A085;
+  box-sizing: border-box;
+}
+input[type=text]::placeholder, input[type=password]::placeholder, input[type=number]::placeholder {
+  color: rgba(22, 160, 133, 0.5);
+}
+
+textarea {
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  color: black;
+  background-color: white;
+  padding: 10px;
+  border: 1px solid #16A085;
+  box-sizing: border-box;
+  width: 100%;
+}
+textarea::placeholder {
+  color: rgba(22, 160, 133, 0.5);
+}
+
+select {
+  font-size: 14px;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  color: black;
+  background-color: white;
+  padding: 5px;
+  border: 1px solid #16A085;
+  box-sizing: border-box;
+}
+
+input[type=submit], input[type=button], button {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  color: white;
+  background-color: rgba(22, 160, 133, 0.5);
+  outline: none;
+  cursor: pointer;
+  border: 1px solid #16A085;
+  box-sizing: border-box;
+  padding: 10px;
+  transition: background-color 0.3s;
+}
+input[type=submit]:hover, input[type=button]:hover, button:hover {
+  background-color: rgba(22, 160, 133, 0.6);
+}
+
+input[type=checkbox] {
+  border: 1px solid rgba(22, 160, 133, 0.5);
+  border-radius: 0;
+  width: 15px;
+  height: 15px;
+  appearance: none;
+  padding: 0;
+  margin: 0px 10px 0 0;
+  box-sizing: content-box;
+  cursor: pointer;
+}
+input[type=checkbox]:checked {
+  appearance: none;
+  color: rgba(22, 160, 133, 0.5);
+  position: relative;
+}
+input[type=checkbox]:checked::before {
+  content: "X";
+  font-size: 14px;
+  color: rgba(22, 160, 133, 0.5);
+  width: 15px;
+  height: 15px;
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 header nav {
   height: 70px;
   background-color: #F6F6F6;
@@ -7,11 +95,6 @@ header nav {
   flex-wrap: nowrap;
   padding: 0 50px;
   font-family: "Lato", sans-serif;
-}
-@media screen and (max-width: 919px) {
-  header nav {
-    padding: 0;
-  }
 }
 header nav a {
   text-decoration: none;
@@ -24,27 +107,8 @@ header nav .nav-link {
   flex-wrap: nowrap;
 }
 header nav .nav-link > a {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: nowrap;
   margin-right: 20px;
   text-transform: uppercase;
-}
-@media screen and (max-width: 1000px) {
-  header nav .nav-link > a p {
-    display: none;
-  }
-}
-header nav .nav-link > a img {
-  margin-left: 1.5em;
-  margin-right: 10px;
-  transition: transform 0.5s;
-  width: 1.75em;
-  height: 1.75em;
-}
-header nav .nav-link > a:hover > img {
-  transform: scale(0.9);
 }
 header nav .logo {
   height: 40px;
@@ -61,11 +125,6 @@ header nav .nav-setting a {
   align-items: center;
   flex-wrap: nowrap;
   margin-right: 20px;
-}
-@media screen and (max-width: 919px) {
-  header nav .nav-setting a > p {
-    display: none;
-  }
 }
 header nav .nav-setting a > img {
   margin-right: 10px;
@@ -453,4 +512,13 @@ hr {
   font-style: normal;
 }
 
-/*# sourceMappingURL=utils.css.map */
+body {
+  width: 80%;
+  padding: 100px;
+}
+body > * {
+  display: block;
+  margin: 15px auto;
+}
+
+/*# sourceMappingURL=example-module.css.map */
