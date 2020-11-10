@@ -188,7 +188,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $title = $gallery->titre;
         $desc = $gallery->description;
         $type = $gallery->type;
-        $size = $gallery->taille;
+        $size = $gallery->taille . ' Ko';
         $author = $gallery->author()->first()->nom_complet;
         
         $result = <<<HTML
@@ -261,7 +261,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $id = $photo->id;
         $title = $photo->titre;
         $path = $photo->chemin;
-        $size = $photo->taille;
+        $size = $photo->taille . ' Ko';
         $quality = $photo->qualite;
         $type = $photo->type;
 

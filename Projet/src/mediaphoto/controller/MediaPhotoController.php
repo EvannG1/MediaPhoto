@@ -216,6 +216,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
     public function checkPostPhoto() {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
+        $user_id = \mediaphoto\model\User::getLoggedUserId();
         if(!$auth->logged_in) {
             header('Location:' . $router->urlFor('home'));
             exit;
@@ -226,18 +227,61 @@ class MediaPhotoController extends \mf\control\AbstractController {
                 $tags = filter_var($post['list-tag'], FILTER_SANITIZE_SPECIAL_CHARS);
                 $selected_gallery = filter_var($post['galerie-conf'], FILTER_SANITIZE_SPECIAL_CHARS);
 
-                if(empty($title) || empty($tags) || empty($selected_gallery)) {
+                if($_FILES['image-upload']['size'] == 0 || empty($title) || empty($tags) || empty($selected_gallery)) {
                     $auth->generateMessage('post_photo_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewPostPhoto');
                 } else {
-                    $target_dir = "/html/images/";
+                    $target_dir = $this->request->root . '/html/images/';
                     $target_file = $target_dir . basename($_FILES["image-upload"]["name"]);
                     $uploadOk = 1;
                     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+                    // Taille de l'image en ko + arrondi au supérieur
+                    $imageSize = ceil($_FILES["image-upload"]["size"] / 1024);
 
                     $check = getimagesize($_FILES["image-upload"]["tmp_name"]);
                     if($check !== false) {
-                        var_dump($check);
-                        die;
+                        $uploadOk = 1;
+                    } else {
+                        $auth->generateMessage('post_photo_error', array('Le fichier que vous nous avez transmis n\'est pas une image.', 'red'), 'viewPostPhoto');
+                        exit;
+                    }
+
+                    if($imageFileType != "jpg" && $imageFileType != "jpeg" && $imageFileType != "png") {
+                        $auth->generateMessage('post_photo_error', array('Désolé, seules les extensions JPG, JPEG et PNG sont autorisées.', 'red'), 'viewPostPhoto');
+                        exit;
+                    }
+
+                    if($uploadOk == 1) {
+                        if(move_uploaded_file($_FILES["image-upload"]["tmp_name"], $target_file)) {
+                            $tags = explode(',', $tags);
+                            $id_tags = [];
+
+                            foreach($tags as $t) {
+                                $exist = \mediaphoto\model\Tag::where('nom', '=', $t)->count();
+                                if(!$exist) {
+                                    $lastInsertTagsId = \mediaphoto\model\Tag::insertGetId(
+                                        ['nom' => $t]
+                                    );
+                                    $id_tags[] = $lastInsertTagsId;
+                                } else {
+                                    $id_tags[] = \mediaphoto\model\Tag::select('id')->where('nom', '=', $t)->first()->id;
+                                }
+                            }
+        
+                            foreach($id_tags as $t) {
+                                \mediaphoto\model\TagPhoto::insert(
+                                    ['id_tag' => $t, 'id_photo' => 0]
+                                );
+                            }
+
+                            $lastInsertId = \mediaphoto\model\Photo::insertGetId(
+                                ['titre' => $title, 'chemin' => '/html/images/' . $_FILES["image-upload"]["name"], 'id_utilisateur' => $user_id,
+                                 'id_galerie' => $selected_gallery, 'qualite' => 'HD', 'type' => $imageFileType, 'taille' => $imageSize]
+                            );
+                            \mediaphoto\model\TagPhoto::where('id_photo', '=', 0)->update(['id_photo' => $lastInsertId]);
+        
+                            header('Location:' . $router->urlFor('viewPhoto', array('id' => $lastInsertId)));
+                            exit;
+                        }
                     }
                 }
             } else {
