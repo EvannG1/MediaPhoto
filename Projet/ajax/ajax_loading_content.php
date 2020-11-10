@@ -12,7 +12,7 @@ $id_galerie = $_POST['idGalerie'];
 $serveur = "localhost";
 $base = "mediaphoto";
 $user = "root";
-$pass = "";
+$pass = "root";
 $params = array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION);
 
 $dsn = "mysql:host=$serveur;dbname=$base";

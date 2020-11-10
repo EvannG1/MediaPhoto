@@ -173,10 +173,6 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         $result .= <<<HTML
         </div>
-        <button class="btn-show-more">
-            VOIR PLUS
-            <img src="${app_url}/html/assets/img/right_arrow.svg" alt="Voir plus" />
-        </button>
         </article>
         HTML;
 
