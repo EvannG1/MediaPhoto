@@ -10,6 +10,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
     private function renderHeader() {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $app_url = $app_url = self::$app_url;
         $router = new \mf\router\Router();
         $home = $router->urlFor('home');
         $login = $router->urlFor('viewLogin');
@@ -25,13 +26,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
                     <a href="${home}">Accueil</a>
                 </div>
                 <a href="${home}">
-                    <img class="logo" src="/html/assets/img/logo.png" alt="MediaPhoto" />
+                    <img class="logo" src="${app_url}/html/assets/img/logo.png" alt="MediaPhoto" />
                 </a>
                 <div class="nav-setting">
-                    <a href="${login}"><img src="/html/assets/img/login.svg" alt="Connexion">
+                    <a href="${login}"><img src="${app_url}/html/assets/img/login.svg" alt="Connexion">
                         <p>Connexion</p>
                     </a>
-                    <a href="${signup}"><img src="/html/assets/img/signup.svg" alt="Inscription">
+                    <a href="${signup}"><img src="${app_url}/html/assets/img/signup.svg" alt="Inscription">
                         <p>Inscription</p>
                     </a>
                 </div>
@@ -45,13 +46,13 @@ class MediaPhotoView extends \mf\view\AbstractView {
                     <a href="#">Mes photos</a>
                 </div>
                 <a href="${home}">
-                    <img class="logo" src="/html/assets/img/logo.png" alt="MediaPhoto" />
+                    <img class="logo" src="${app_url}/html/assets/img/logo.png" alt="MediaPhoto" />
                 </a>
                 <div class="nav-setting">
-                    <a href="${password}"><img src="/html/assets/img/setting.svg" alt="Paramètres">
+                    <a href="${password}"><img src="${app_url}/html/assets/img/setting.svg" alt="Paramètres">
                         <p>$_SESSION[user_login]</p>
                     </a>
-                    <a href="${logout}"><img src="/html/assets/img/disconnect.svg" alt="Déconnexion">
+                    <a href="${logout}"><img src="${app_url}/html/assets/img/disconnect.svg" alt="Déconnexion">
                         <p>Déconnexion</p>
                     </a>
                 </div>
@@ -69,6 +70,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
     private function renderHome() {
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         $router = new \mf\router\Router();
+        $app_url = self::$app_url;
         $galleries = $this->data;
         $search_link = $router->urlFor('checkSearch');
 
@@ -113,9 +115,9 @@ class MediaPhotoView extends \mf\view\AbstractView {
                         $nbPhotos = \mediaphoto\model\Photo::where('id_galerie', '=', $galleryId)->count();
                         $get_path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->count();
                         if($get_path < 1) {
-                            $path = '/html/images/default.png';
+                            $path = self::$app_url . '/html/images/default.png';
                         } else {
-                            $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                            $path = self::$app_url . \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
                         }
 
                         $result .= <<<HTML
@@ -135,7 +137,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                     $result .= <<<HTML
                     <div class="card-add">
                       <a href="${link_create_gallery}" title="Créer gallerie">
-                          <img src="/html/assets/img/add.svg" alt="Créer gallerie" />
+                          <img src="${app_url}/html/assets/img/add.svg" alt="Créer gallerie" />
                             </a>
                         </div>
                     </div>
@@ -155,7 +157,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         foreach($photos as $p) {
             $title = $p->titre;
-            $path = $p->chemin;
+            $path = self::$app_url . $p->chemin;
             $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
@@ -172,7 +174,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         <button class="btn-show-more">
             VOIR PLUS
-            <img src="/html/assets/img/right_arrow.svg" alt="Voir plus" />
+            <img src="${app_url}/html/assets/img/right_arrow.svg" alt="Voir plus" />
         </button>
         </article>
         HTML;
@@ -182,6 +184,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
     private function renderViewGallery() {
         $router = new \mf\router\Router();
+        $app_url = self::$app_url;
 
         $gallery = $this->data;
         $id = $gallery->id;
@@ -229,7 +232,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
         foreach($photos as $p) {
             $title = $p->titre;
-            $path = $p->chemin;
+            $path = self::$app_url . $p->chemin;
             $link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
@@ -246,7 +249,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         </div>
         <button class="btn-show-more" data-id-galerie="${id}" data-nb-increment="15" data-actual-offset="15">
             VOIR PLUS
-            <img src="/html/assets/img/right_arrow.svg" alt="Voir plus">
+            <img src="${app_url}/html/assets/img/right_arrow.svg" alt="Voir plus">
         </button>
         </article>
         HTML;
@@ -257,10 +260,11 @@ class MediaPhotoView extends \mf\view\AbstractView {
     private function renderViewPhoto() {
         $router = new \mf\router\Router();
         $photo = $this->data;
+        $app_url = self::$app_url;
 
         $id = $photo->id;
         $title = $photo->titre;
-        $path = $photo->chemin;
+        $path = self::$app_url . $photo->chemin;
         $size = $photo->taille . ' Ko';
         $quality = $photo->qualite;
         $type = $photo->type;
@@ -294,10 +298,10 @@ class MediaPhotoView extends \mf\view\AbstractView {
           <img class="pic" data-img="${path}" data-id="${id}" src="${path}" alt="${title}">
           </div>
           <a href="${previous_photo_link}">
-            <img class="left-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher précédent">
+            <img class="left-arrow" src="${app_url}/html/assets/img/left_arrow_pic.svg" alt="Afficher précédent">
           </a>
           <a href="${next_photo_link}">
-            <img class="right-arrow" src="/html/assets/img/left_arrow_pic.svg" alt="Afficher suivant">
+            <img class="right-arrow" src="${app_url}/html/assets/img/left_arrow_pic.svg" alt="Afficher suivant">
           </a>
         </div>
         <div class="in-galerie">
@@ -307,7 +311,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         
         foreach($get_photos as $p) {
             $img_title = $p->titre;
-            $img_path = $p->chemin;
+            $img_path = self::$app_url . $p->chemin;
             $img_link = $router->urlFor('viewPhoto', array('id' => $p->id));
 
             $result .= <<<HTML
@@ -489,9 +493,9 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 $link = $router->urlFor('viewGallery', array('id' => $galleryId));
                 $get_path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->count();
                 if($get_path < 1) {
-                    $path = '/html/images/default.png';
+                    $path = self::$app_url . '/html/images/default.png';
                 } else {
-                    $path = \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
+                    $path = self::$app_url . \mediaphoto\model\Photo::select('chemin')->where('id_galerie', '=', $galleryId)->first()->chemin;
                 }
 
                 $result .= <<<HTML
@@ -510,7 +514,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             foreach($data['photo'] as $p) {
                 $photoId = $p->id;
                 $title = $p->titre;
-                $path = $p->chemin;
+                $path = self::$app_url . $p->chemin;
                 $link = $router->urlFor('viewPhoto', array('id' => $photoId));
 
                 $result .= <<<HTML
@@ -603,6 +607,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
 
     private function renderViewPostPhoto() {
         $router = new \mf\router\Router();
+        $app_url = self::$app_url;
         $gallery = $this->data;
         $check_post_photo_link = $router->urlFor('checkPostPhoto');
         $result = '';
@@ -630,7 +635,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
                 <label for="image-upload">Parcourir une image :</label>
                 <input style="display: none;" type="file" id="image-upload" name="image-upload"
                     accept="image/png, image/jpeg, image/jpg">
-                <img src="/html/assets/img/add.svg" alt="Parcourir" />
+                <img src="${app_url}/html/assets/img/add.svg" alt="Parcourir" />
             </div>
             <div>
                 <label for="galerie-name">Saisir un nom pour la photo :</label>

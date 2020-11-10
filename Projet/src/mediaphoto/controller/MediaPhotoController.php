@@ -11,16 +11,16 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewHome() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/accueil.css');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/accueil.css');
         $galleries = \mediaphoto\model\Gallery::select()->orderBy('id', 'desc')->get();
         $vue = new \mediaphoto\view\MediaPhotoView($galleries);
         $vue->render('renderHome');
     }
 
     public function viewGallery() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/galerie.css');
-        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
-        MediaPhotoView::addScript('/html/assets/js/vignette.js');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/galerie.css');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/vignette.js');
         if(!isset($this->request->get['id'])) {
             $router = new \mf\router\Router();
             header('Location:' . $router->urlFor('home'));
@@ -34,9 +34,9 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewPhoto() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/detail.css');
-        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
-        MediaPhotoView::addScript('/html/assets/js/lightbox.js');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/detail.css');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/lightbox.js');
         if(!isset($this->request->get['id'])) {
             $router = new \mf\router\Router();
             header('Location:' . $router->urlFor('home'));
@@ -50,7 +50,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewSearch() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/accueil.css');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/accueil.css');
         $render = [];
         if(isset($this->request->get['galerie'])) {
             $galleries = \mediaphoto\model\Gallery::select()->where('titre', 'LIKE', '%'.$this->request->get['galerie'].'%')->get();
@@ -98,11 +98,11 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewCreateGallery() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
-        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
-        MediaPhotoView::addScript('/html/assets/js/autosearch.js');
-        MediaPhotoView::addScript('/html/assets/js/conf-user.js');
-        MediaPhotoView::addScript('/html/assets/js/block-add-user.js');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/styleLogin.css');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/autosearch.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/conf-user.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/block-add-user.js');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -197,10 +197,10 @@ class MediaPhotoController extends \mf\control\AbstractController {
     }
 
     public function viewPostPhoto() {
-        MediaPhotoView::addStyleSheet('/html/assets/css/styleLogin.css');
-        MediaPhotoView::addScript('/html/assets/js/jquery-3.2.1.js');
-        MediaPhotoView::addScript('/html/assets/js/autosearch.js');
-        MediaPhotoView::addScript('/html/assets/js/block-browse-img.js');
+        MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/styleLogin.css');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/jquery-3.2.1.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/autosearch.js');
+        MediaPhotoView::addScript(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/js/block-browse-img.js');
         $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
         if(!$auth->logged_in) {
             $router = new \mf\router\Router();
@@ -230,7 +230,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
                 if($_FILES['image-upload']['size'] == 0 || empty($title) || empty($tags) || empty($selected_gallery)) {
                     $auth->generateMessage('post_photo_error', array('Veuillez renseigner tous les champs.', 'red'), 'viewPostPhoto');
                 } else {
-                    $target_dir = $this->request->root . '/html/images/';
+                    $target_dir = $this->request->root . \mediaphoto\view\MediaPhotoView::$app_url . '/html/images/';
                     $target_file = $target_dir . basename($_FILES["image-upload"]["name"]);
                     $uploadOk = 1;
                     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
@@ -274,7 +274,7 @@ class MediaPhotoController extends \mf\control\AbstractController {
                             }
 
                             $lastInsertId = \mediaphoto\model\Photo::insertGetId(
-                                ['titre' => $title, 'chemin' => '/html/images/' . $_FILES["image-upload"]["name"], 'id_utilisateur' => $user_id,
+                                ['titre' => $title, 'chemin' => \mediaphoto\view\MediaPhotoView::$app_url . '/html/images/' . $_FILES["image-upload"]["name"], 'id_utilisateur' => $user_id,
                                  'id_galerie' => $selected_gallery, 'qualite' => 'HD', 'type' => $imageFileType, 'taille' => $imageSize]
                             );
                             \mediaphoto\model\TagPhoto::where('id_photo', '=', 0)->update(['id_photo' => $lastInsertId]);

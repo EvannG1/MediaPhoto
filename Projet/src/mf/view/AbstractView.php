@@ -6,6 +6,7 @@ abstract class AbstractView {
 
     static protected $style_sheets = []; /* un tableau de fichiers style */
     static protected $app_title    = "MF app Title"; /* un titre de document */
+    static public $app_url = "http://localhost";
     static protected $fonts = []; /* un tableau de polices */
     static protected $scripts = []; /* un tableau de scripts */
     
@@ -65,6 +66,10 @@ abstract class AbstractView {
     
     static public function setAppTitle($title){
         self::$app_title = $title;
+    }
+
+    static public  function setAppUrl($url) {
+        self::$app_url = $url;
     }
 
     /* Méthode renderBody 

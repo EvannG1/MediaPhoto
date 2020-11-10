@@ -12,6 +12,8 @@ $loader->register();
 use mediaphoto\view\MediaPhotoView;
 use mediaphoto\auth\MediaPhotoAuthentification;
 
+// URL du site
+MediaPhotoView::setAppUrl('http://localhost:8000/Projet');
 // Titre de la page
 MediaPhotoView::setAppTitle('MediaPhoto');
 
@@ -20,7 +22,7 @@ MediaPhotoView::addFont('https://fonts.googleapis.com/css2?family=Lato:wght@300;
 
 // Importation de la feuille de style
 MediaPhotoView::addStyleSheet('https://necolas.github.io/normalize.css/8.0.1/normalize.css');
-MediaPhotoView::addStyleSheet('/html/assets/css/utils.css');
+MediaPhotoView::addStyleSheet(MediaPhotoView::$app_url . '/html/assets/css/utils.css');
 
 $config = parse_ini_file('conf/config.ini');
 $db = new \Illuminate\Database\Capsule\Manager();
