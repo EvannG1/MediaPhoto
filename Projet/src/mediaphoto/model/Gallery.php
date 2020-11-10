@@ -12,7 +12,7 @@ class Gallery extends \Illuminate\Database\Eloquent\Model {
     }
 
     public function photos() {
-        return $this->hasMany('\mediaphoto\model\Photo', 'id_galerie');
+        return $this->hasMany('\mediaphoto\model\Photo', 'id_galerie')->limit(15)->offset(0);
     }
 
     public function partage() {

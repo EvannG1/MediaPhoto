@@ -36,6 +36,7 @@ $router = new \mf\router\Router();
 $router->addRoute('home', '/', '\mediaphoto\controller\MediaPhotoController', 'viewHome', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
 $router->addRoute('viewGallery', '/gallery/', '\mediaphoto\controller\MediaPhotoController', 'viewGallery', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
 $router->addRoute('viewPhoto', '/photo/', '\mediaphoto\controller\MediaPhotoController', 'viewPhoto', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);
+$router->addRoute('viewMyPictures', '/my_photos/', '\mediaphoto\controller\MediaPhotoController', 'viewMyPictures', MediaPhotoAuthentification::ACCESS_LEVEL_USER);
 
 // Routes de recherche
 $router->addRoute('viewSearch', '/search/', '\mediaphoto\controller\MediaPhotoController', 'viewSearch', MediaPhotoAuthentification::ACCESS_LEVEL_NONE);

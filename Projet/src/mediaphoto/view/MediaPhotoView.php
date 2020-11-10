@@ -18,6 +18,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
         $logout = $router->urlFor('viewLogout');
         $password = $router->urlFor('viewPassword');
         $post_photo_link = $router->urlFor('viewPostPhoto');
+        $my_photo_link = $router->urlFor('viewMyPictures');
 
         if(!$auth->logged_in) {
             $result = <<<HTML
@@ -43,7 +44,7 @@ class MediaPhotoView extends \mf\view\AbstractView {
             <nav>
                 <div class="nav-link">
                     <a href="${post_photo_link}">Poster une photo</a>
-                    <a href="#">Mes photos</a>
+                    <a href="${my_photo_link}">Mes photos</a>
                 </div>
                 <a href="${home}">
                     <img class="logo" src="${app_url}/html/assets/img/logo.png" alt="MediaPhoto" />
@@ -672,6 +673,58 @@ class MediaPhotoView extends \mf\view\AbstractView {
         HTML;
 
         return $result;
+    }
+
+    private function renderViewMyPictures() {
+        $router = new \mf\router\Router();
+        $app_url = self::$app_url;
+
+        $image = $this->data;
+
+        $result = <<<HTML
+        <article class="block-title-page">
+            <h1>Mes <strong><u>photos</u></strong></h1>
+        </article>
+        <article class="content-block pictures-list">
+        HTML;
+
+        $firstPic = true;
+        foreach ($image as $v) {
+            if(!$firstPic){//Pour ne pas mettre <hr> au dessus de la première image dans la page
+                $result .= '<hr style="width: 50%">';
+            }else{
+                $firstPic=false;
+            }
+            $title = $v->titre;
+            $path = self::$app_url . $v->chemin;
+            $link = $router->urlFor('viewPhoto', array('id' => $v->id));
+
+            $result .= <<<HTML
+            <div class="pictures">
+                <h1>${title}</h1>
+                <a href="${link}">
+                <img class="pic" src="${path}" alt="${title} par moi" />
+                </a>
+            </div>
+        HTML;
+        }
+
+        $result .= <<<HTML
+        </article>
+        <footer>
+          <div class="block-pagination">
+            <a class="previous-page" href="page-1">
+              <img src="${app_url}/html/assets/img/left_arrow_pic.svg" alt="Précédent">
+            </a>
+            <p class="actual-page">1/4</p>
+            <a class="next-page" href="page+1">
+              <img src="${app_url}/html/assets/img/left_arrow_pic.svg" alt="Suivant">
+            </a>
+          </div>
+        </footer>
+        HTML;
+        
+      return $result;
     }
 
     protected function renderBody($selector)

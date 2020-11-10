@@ -319,4 +319,19 @@ class MediaPhotoController extends \mf\control\AbstractController {
             }
         }
     }
+
+    public function viewMyPictures() {
+        $auth = new \mediaphoto\auth\MediaPhotoAuthentification();
+        $router = new \mf\router\Router();
+        if(!$auth->logged_in) {
+            $router = new \mf\router\Router();
+            header('Location:' . $router->urlFor('home'));
+            exit;
+        } else {
+          MediaPhotoView::addStyleSheet(\mediaphoto\view\MediaPhotoView::$app_url . '/html/assets/css/show_pic.css');
+          $pictures = \mediaphoto\model\Photo::select()->where('id_utilisateur', '=', \mediaphoto\model\User::getLoggedUserId())->limit(5)->get();
+          $vue = new \mediaphoto\view\MediaPhotoView($pictures);
+          $vue->render('renderViewMyPictures');
+        }
+    } 
 }
