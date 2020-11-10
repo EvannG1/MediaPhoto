@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 10 nov. 2020 à 18:16
+-- Généré le : mar. 10 nov. 2020 à 18:22
 -- Version du serveur :  10.3.23-MariaDB-0+deb10u1
 -- Version de PHP : 7.3.19-1~deb10u1
 
@@ -31,7 +31,7 @@ CREATE TABLE `galerie` (
   `id` int(11) NOT NULL,
   `titre` varchar(255) NOT NULL,
   `description` varchar(255) NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp(),
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `type` int(11) NOT NULL,
   `auteur` int(11) NOT NULL,
   `taille` float NOT NULL DEFAULT 0
@@ -42,10 +42,10 @@ CREATE TABLE `galerie` (
 --
 
 INSERT INTO `galerie` (`id`, `titre`, `description`, `date`, `type`, `auteur`, `taille`) VALUES
-(1, 'Vacances', 'Mes superbes vacances à la mer', '2020-11-03', 1, 1, 2472),
-(2, 'Montagne', 'Mes superbes vacances à la montagne', '2020-11-03', 1, 1, 0),
-(52, 'Papillons', 'Papillons galerie', '2020-11-10', 3, 1, 0),
-(53, 'test', 'test', '2020-11-10', 3, 1, 0);
+(1, 'Vacances', 'Mes superbes vacances à la mer', '2020-11-02 23:00:00', 1, 1, 2472),
+(2, 'Montagne', 'Mes superbes vacances à la montagne', '2020-11-02 23:00:00', 1, 1, 0),
+(52, 'Papillons', 'Papillons galerie', '2020-11-09 23:00:00', 3, 1, 0),
+(53, 'test', 'test', '2020-11-09 23:00:00', 3, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -79,7 +79,7 @@ INSERT INTO `galerie_partage` (`id`, `id_utilisateur`, `id_galerie`) VALUES
 CREATE TABLE `photo` (
   `id` int(11) NOT NULL,
   `titre` varchar(255) NOT NULL,
-  `date` date NOT NULL DEFAULT current_timestamp(),
+  `date` timestamp NOT NULL DEFAULT current_timestamp(),
   `chemin` varchar(255) NOT NULL,
   `id_utilisateur` int(11) NOT NULL,
   `id_galerie` int(11) NOT NULL,
@@ -93,14 +93,14 @@ CREATE TABLE `photo` (
 --
 
 INSERT INTO `photo` (`id`, `titre`, `date`, `chemin`, `id_utilisateur`, `id_galerie`, `qualite`, `type`, `taille`) VALUES
-(1, 'Plage magnifique', '2020-11-03', '/html/images/1.jpg', 1, 1, 'HD', 'jpg', 10),
-(2, 'Plage moche', '2020-11-03', '/html/images/4.jpg', 1, 1, 'FHD', 'jpg', 57),
-(3, 'Montagne anonyme', '2020-11-05', '/html/images/3.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
-(4, 'Mont Fuji', '2020-11-02', '/html/images/4.jpg', 2, 2, 'HD', 'jpg', 17),
-(5, 'Montagne pas si anonyme', '2020-11-05', '/html/images/5.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
-(6, 'Plage nuageuse', '2020-11-03', '/html/images/6.jpg', 1, 1, 'HD', 'jpg', 10),
-(7, 'Montagne petite', '2020-11-05', '/html/images/7.jpeg', 2, 2, 'Ultra SD', 'jpeg', 47),
-(8, 'Montagnes avec cailloux', '2020-11-05', '/html/images/12.jpg', 2, 2, 'Ultra SD', 'jpeg', 47);
+(1, 'Plage magnifique', '2020-11-02 23:00:00', '/html/images/1.jpg', 1, 1, 'HD', 'jpg', 10),
+(2, 'Plage moche', '2020-11-02 23:00:00', '/html/images/4.jpg', 1, 1, 'FHD', 'jpg', 57),
+(3, 'Montagne anonyme', '2020-11-04 23:00:00', '/html/images/3.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
+(4, 'Mont Fuji', '2020-11-01 23:00:00', '/html/images/4.jpg', 2, 2, 'HD', 'jpg', 17),
+(5, 'Montagne pas si anonyme', '2020-11-04 23:00:00', '/html/images/5.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
+(6, 'Plage nuageuse', '2020-11-02 23:00:00', '/html/images/6.jpg', 1, 1, 'HD', 'jpg', 10),
+(7, 'Montagne petite', '2020-11-04 23:00:00', '/html/images/7.jpeg', 2, 2, 'Ultra SD', 'jpeg', 47),
+(8, 'Montagnes avec cailloux', '2020-11-04 23:00:00', '/html/images/12.jpg', 2, 2, 'Ultra SD', 'jpeg', 47);
 
 -- --------------------------------------------------------
 
