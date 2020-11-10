@@ -8,7 +8,7 @@ $(document).ready(function() {
     return {
       ajaxLoadding(_galerieBlock, _idGalerie, _nbElemToLoad, _actualOffset, _positionY, _btn){
         $.ajax({
-           url : './php/ajax_loading_content.php',
+           url : './../../ajax/ajax_loading_content.php',
            type : 'POST',
            data : { idGalerie: _idGalerie, nbElemToLoad: _nbElemToLoad, actualOffset: _actualOffset },
            dataType : 'html'
