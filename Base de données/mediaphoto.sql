@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : mar. 10 nov. 2020 à 18:22
--- Version du serveur :  10.3.23-MariaDB-0+deb10u1
--- Version de PHP : 7.3.19-1~deb10u1
+-- Généré le : mar. 10 nov. 2020 à 20:05
+-- Version du serveur :  10.4.14-MariaDB
+-- Version de PHP : 7.2.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -45,7 +45,8 @@ INSERT INTO `galerie` (`id`, `titre`, `description`, `date`, `type`, `auteur`, `
 (1, 'Vacances', 'Mes superbes vacances à la mer', '2020-11-02 23:00:00', 1, 1, 2472),
 (2, 'Montagne', 'Mes superbes vacances à la montagne', '2020-11-02 23:00:00', 1, 1, 0),
 (52, 'Papillons', 'Papillons galerie', '2020-11-09 23:00:00', 3, 1, 0),
-(53, 'test', 'test', '2020-11-09 23:00:00', 3, 1, 0);
+(53, 'test', 'test', '2020-11-09 23:00:00', 3, 1, 0),
+(54, 'Voyage', 'Les photos prises au bon moment avec mon Nicon 3400.', '2020-11-10 17:57:49', 1, 11, 0);
 
 -- --------------------------------------------------------
 
@@ -97,10 +98,41 @@ INSERT INTO `photo` (`id`, `titre`, `date`, `chemin`, `id_utilisateur`, `id_gale
 (2, 'Plage moche', '2020-11-02 23:00:00', '/html/images/4.jpg', 1, 1, 'FHD', 'jpg', 57),
 (3, 'Montagne anonyme', '2020-11-04 23:00:00', '/html/images/3.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
 (4, 'Mont Fuji', '2020-11-01 23:00:00', '/html/images/4.jpg', 2, 2, 'HD', 'jpg', 17),
-(5, 'Montagne pas si anonyme', '2020-11-04 23:00:00', '/html/images/5.jpg', 2, 2, 'Ultra HD', 'jpg', 47),
-(6, 'Plage nuageuse', '2020-11-02 23:00:00', '/html/images/6.jpg', 1, 1, 'HD', 'jpg', 10),
-(7, 'Montagne petite', '2020-11-04 23:00:00', '/html/images/7.jpeg', 2, 2, 'Ultra SD', 'jpeg', 47),
-(8, 'Montagnes avec cailloux', '2020-11-04 23:00:00', '/html/images/12.jpg', 2, 2, 'Ultra SD', 'jpeg', 47);
+(5, 'Voici ma 5ème photo !', '2020-11-10 18:03:18', '/html/images/5.jpg', 11, 54, 'FULL HD', 'jpg', 36.5),
+(6, 'Voici ma 6ème photo !', '2020-11-10 18:03:18', '/html/images/6.jpg', 11, 54, 'HD', 'jpg', 43.8),
+(7, 'Voici ma 7ème photo !', '2020-11-10 18:03:18', '/html/images/7.jpeg', 11, 54, 'FULL HD', 'jpg', 51.1),
+(8, 'Voici ma 8ème photo !', '2020-11-10 18:03:18', '/html/images/8.jpeg', 11, 54, 'HD', 'jpg', 58.4),
+(9, 'Voici ma 9ème photo !', '2020-11-10 18:03:18', '/html/images/9.jpg', 11, 54, 'FULL HD', 'jpg', 65.7),
+(10, 'Voici ma 10ème photo !', '2020-11-10 18:03:18', '/html/images/10.jpg', 11, 54, 'HD', 'jpg', 73),
+(11, 'Voici ma 11ème photo !', '2020-11-10 18:03:18', '/html/images/11.jpg', 11, 54, 'FULL HD', 'jpg', 80.3),
+(12, 'Voici ma 12ème photo !', '2020-11-10 18:03:18', '/html/images/12.jpg', 11, 54, 'HD', 'jpg', 87.6),
+(13, 'Voici ma 13ème photo !', '2020-11-10 18:03:18', '/html/images/13.jpeg', 11, 54, 'FULL HD', 'jpg', 94.9),
+(14, 'Voici ma 14ème photo !', '2020-11-10 18:03:18', '/html/images/14.jpeg', 11, 54, 'HD', 'jpg', 102.2),
+(15, 'Voici ma 15ème photo !', '2020-11-10 18:03:18', '/html/images/15.jpeg', 11, 54, 'FULL HD', 'jpg', 109.5),
+(16, 'Voici ma 16ème photo !', '2020-11-10 18:03:18', '/html/images/16.jpeg', 11, 54, 'HD', 'jpg', 116.8),
+(17, 'Voici ma 17ème photo !', '2020-11-10 18:03:18', '/html/images/17.jpg', 11, 54, 'FULL HD', 'jpg', 124.1),
+(18, 'Voici ma 18ème photo !', '2020-11-10 18:03:18', '/html/images/18.jpg', 11, 54, 'HD', 'jpg', 131.4),
+(19, 'Voici ma 19ème photo !', '2020-11-10 18:03:18', '/html/images/19.jpg', 11, 54, 'FULL HD', 'jpg', 138.7),
+(20, 'Voici ma 20ème photo !', '2020-11-10 18:03:18', '/html/images/20.jpg', 11, 54, 'HD', 'jpg', 146),
+(21, 'Voici ma 21ème photo !', '2020-11-10 18:03:18', '/html/images/21.jpeg', 11, 54, 'FULL HD', 'jpg', 153.3),
+(22, 'Voici ma 22ème photo !', '2020-11-10 18:03:18', '/html/images/22.jpg', 11, 54, 'HD', 'jpg', 160.6),
+(23, 'Voici ma 23ème photo !', '2020-11-10 18:03:18', '/html/images/23.jpg', 11, 54, 'FULL HD', 'jpg', 167.9),
+(24, 'Voici ma 24ème photo !', '2020-11-10 18:03:18', '/html/images/24.jpeg', 11, 54, 'HD', 'jpg', 175.2),
+(25, 'Voici ma 25ème photo !', '2020-11-10 18:03:18', '/html/images/25.jpg', 11, 54, 'FULL HD', 'jpg', 182.5),
+(26, 'Voici ma 26ème photo !', '2020-11-10 18:03:18', '/html/images/26.jpg', 11, 54, 'HD', 'jpg', 189.8),
+(27, 'Voici ma 27ème photo !', '2020-11-10 18:03:18', '/html/images/27.jpg', 11, 54, 'FULL HD', 'jpg', 197.1),
+(28, 'Voici ma 28ème photo !', '2020-11-10 18:03:18', '/html/images/28.jpg', 11, 54, 'HD', 'jpg', 204.4),
+(29, 'Voici ma 29ème photo !', '2020-11-10 18:03:18', '/html/images/29.jpg', 11, 54, 'FULL HD', 'jpg', 211.7),
+(30, 'Voici ma 30ème photo !', '2020-11-10 18:03:18', '/html/images/30.jpeg', 11, 54, 'HD', 'jpg', 219),
+(31, 'Voici ma 31ème photo !', '2020-11-10 18:03:18', '/html/images/31.jpeg', 11, 54, 'FULL HD', 'jpg', 226.3),
+(32, 'Voici ma 32ème photo !', '2020-11-10 18:03:18', '/html/images/32.jpg', 11, 54, 'HD', 'jpg', 233.6),
+(33, 'Voici ma 33ème photo !', '2020-11-10 18:03:18', '/html/images/33.jpg', 11, 54, 'FULL HD', 'jpg', 240.9),
+(34, 'Voici ma 34ème photo !', '2020-11-10 18:03:18', '/html/images/34.jpg', 11, 54, 'HD', 'jpg', 248.2),
+(35, 'Voici ma 35ème photo !', '2020-11-10 18:03:18', '/html/images/35.jpg', 11, 54, 'FULL HD', 'jpg', 255.5),
+(36, 'Voici ma 36ème photo !', '2020-11-10 18:03:18', '/html/images/36.jpg', 11, 54, 'HD', 'jpg', 262.8),
+(37, 'Voici ma 37ème photo !', '2020-11-10 18:03:18', '/html/images/37.jpeg', 11, 54, 'FULL HD', 'jpg', 270.1),
+(38, 'Voici ma 38ème photo !', '2020-11-10 18:03:18', '/html/images/38.jpg', 11, 54, 'HD', 'jpg', 277.4),
+(39, 'Voici ma 39ème photo !', '2020-11-10 18:03:18', '/html/images/39.jpg', 11, 54, 'FULL HD', 'jpg', 284.7);
 
 -- --------------------------------------------------------
 
@@ -184,7 +216,7 @@ INSERT INTO `utilisateur` (`id`, `nom`, `nom_complet`, `mdp`, `level`) VALUES
 (1, 'admin', 'John Doe', '$2y$10$y0F5Z.E7qGjhTQhkLAlwFOVaOu8J4VLGjSwh9V834GzGax.2K/yC6', 100),
 (2, 'evann', 'Evann Gehin', 'azerty', 100),
 (3, 'vivien', 'Vivien Klop', 'azerty', 100),
-(11, 'guy', 'Guy ZAEGEL', '$2y$10$IvApCw2lrsnikHlbowFYbeNFLdDnYG1Dk1DXqqOF5SVC9REfyRaeK', 100);
+(11, 'lucaas855', 'Lucas PORTARO', '$2y$10$h03P9GiY4dzkImYZVXIPTejF8oOvMrhf3rQSD0r5x9QBGxNjaQ0/y', 100);
 
 --
 -- Index pour les tables déchargées
@@ -240,7 +272,7 @@ ALTER TABLE `utilisateur`
 -- AUTO_INCREMENT pour la table `galerie`
 --
 ALTER TABLE `galerie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT pour la table `galerie_partage`
@@ -252,7 +284,7 @@ ALTER TABLE `galerie_partage`
 -- AUTO_INCREMENT pour la table `photo`
 --
 ALTER TABLE `photo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT pour la table `tag`
@@ -276,7 +308,7 @@ ALTER TABLE `tag_photo`
 -- AUTO_INCREMENT pour la table `utilisateur`
 --
 ALTER TABLE `utilisateur`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
